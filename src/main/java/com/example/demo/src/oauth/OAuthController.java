@@ -2,7 +2,7 @@ package com.example.demo.src.oauth;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.user.model.PostUserOAuthRes;
+import com.example.demo.src.oauth.model.PostUserOAuthRes;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

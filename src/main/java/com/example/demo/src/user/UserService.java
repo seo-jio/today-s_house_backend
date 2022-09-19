@@ -3,15 +3,17 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
-import com.example.demo.src.user.model.*;
+import com.example.demo.src.user.model.PatchUserReq;
+import com.example.demo.src.user.model.PostUserReq;
+import com.example.demo.src.user.model.PostUserRes;
 import com.example.demo.utils.AES128;
 import com.example.demo.utils.JwtService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.jdbc.core.JdbcTemplate;
-import javax.sql.DataSource;
+
 import static com.example.demo.config.BaseResponseStatus.*;
 
 /**
@@ -20,6 +22,7 @@ import static com.example.demo.config.BaseResponseStatus.*;
  * 요청한 작업을 처리하는 관정을 하나의 작업으로 묶음
  * dao를 호출하여 DB CRUD를 처리 후 Controller로 반환
  */
+@Slf4j
 @Service    // [Business Layer에서 Service를 명시하기 위해서 사용] 비즈니스 로직이나 respository layer 호출하는 함수에 사용된다.
             // [Business Layer]는 컨트롤러와 데이터 베이스를 연결
 public class UserService {
@@ -56,14 +59,10 @@ public class UserService {
         }
         try {
             int userIdx = userDao.createUser(postUserReq);
-            return new PostUserRes(userIdx);
-
-//  *********** 해당 부분은 7주차 수업 후 주석해제하서 대체해서 사용해주세요! ***********
-//            //jwt 발급.
-//            String jwt = jwtService.createJwt(userIdx);
-//            return new PostUserRes(jwt,userIdx);
-//  *********************************************************************
+            String jwt = jwtService.createJwt(userIdx);
+            return new PostUserRes(userIdx, jwt);
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
+            log.error(exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
