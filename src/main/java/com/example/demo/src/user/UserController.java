@@ -20,7 +20,7 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
                 //  [Presentation Layer?] 클라이언트와 최초로 만나는 곳으로 데이터 입출력이 발생하는 곳
                 //  Web MVC 코드에 사용되는 어노테이션. @RequestMapping 어노테이션을 해당 어노테이션 밑에서만 사용할 수 있다.
                 // @ResponseBody    모든 method의 return object를 적절한 형태로 변환 후, HTTP Response Body에 담아 반환.
-@RequestMapping("/app/users")
+@RequestMapping("/api/users")
 // method가 어떤 HTTP 요청을 처리할 것인가를 작성한다.
 // 요청에 대해 어떤 Controller, 어떤 메소드가 처리할지를 맵핑하기 위한 어노테이션
 // URL(/app/users)을 컨트롤러의 메서드와 매핑할 때 사용
@@ -58,7 +58,7 @@ public class UserController {
      */
     // Body
     @ResponseBody
-    @PostMapping("/sign-up")    // POST 방식의 요청을 매핑하기 위한 어노테이션
+    @PostMapping("")    // POST 방식의 요청을 매핑하기 위한 어노테이션
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         //  @RequestBody란, 클라이언트가 전송하는 HTTP Request Body(우리는 JSON으로 통신하니, 이 경우 body는 JSON)를 자바 객체로 매핑시켜주는 어노테이션
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
