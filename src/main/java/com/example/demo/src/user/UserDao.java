@@ -56,14 +56,15 @@ public class UserDao {
 
     // 회원가입
     public int createUser(PostUserReq postUserReq) {
-        String createUserQuery = "insert into User (email, password, nickname) VALUES (?,?,?)"; // 실행될 동적 쿼리문
-        Object[] createUserParams = new Object[]{postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getNickname()}; // 동적 쿼리의 ?부분에 주입될 값
+        String createUserQuery = "insert into User (email, password, nickname, isMarketing, isSms) VALUES (?,?,?,?,?)"; // 실행될 동적 쿼리문
+        Object[] createUserParams = new Object[]{postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getNickname(), postUserReq.getIsMarketing(), postUserReq.getIsSms()}; // 동적 쿼리의 ?부분에 주입될 값
         this.jdbcTemplate.update(createUserQuery, createUserParams);
         // email -> postUserReq.getEmail(), password -> postUserReq.getPassword(), nickname -> postUserReq.getNickname() 로 매핑(대응)시킨다음 쿼리문을 실행한다.
         // 즉 DB의 User Table에 (email, password, nickname)값을 가지는 유저 데이터를 삽입(생성)한다.
-
-        String lastInserIdQuery = "select last_insert_id()"; // 가장 마지막에 삽입된(생성된) id값은 가져온다.
-        return this.jdbcTemplate.queryForObject(lastInserIdQuery, int.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
+        System.out.println("회원 가입 성공");
+        String lastInsertIdQuery = "select last_insert_id()"; // 가장 마지막에 삽입된(생성된) id값은 가져온다.
+        System.out.println("가입한 회원의 userIdx = " + lastInsertIdQuery);
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
     }
 
     // 이메일 확인
@@ -80,7 +81,7 @@ public class UserDao {
         String modifyUserNameQuery = "update User set nickname = ? where userIdx = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
         Object[] modifyUserNameParams = new Object[]{patchUserReq.getNickname(), patchUserReq.getUserIdx()}; // 주입될 값들(nickname, userIdx) 순
 
-        return this.jdbcTemplate.update(modifyUserNameQuery, modifyUserNameParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0) 
+        return this.jdbcTemplate.update(modifyUserNameQuery, modifyUserNameParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
     }
 
 
@@ -108,7 +109,8 @@ public class UserDao {
                         rs.getInt("userIdx"),
                         rs.getString("nickname"),
                         rs.getString("Email"),
-                        rs.getString("password")) // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                        rs.getString("password"),
+                        rs.getString("status")) // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
         ); // 복수개의 회원정보들을 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보)의 결과 반환(동적쿼리가 아니므로 Parmas부분이 없음)
     }
 
@@ -121,7 +123,8 @@ public class UserDao {
                         rs.getInt("userIdx"),
                         rs.getString("nickname"),
                         rs.getString("Email"),
-                        rs.getString("password")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                        rs.getString("password"),
+                        rs.getString("status")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getUsersByNicknameParams); // 해당 닉네임을 갖는 모든 User 정보를 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 
@@ -134,7 +137,8 @@ public class UserDao {
                         rs.getInt("userIdx"),
                         rs.getString("nickname"),
                         rs.getString("Email"),
-                        rs.getString("password")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                        rs.getString("password"),
+                        rs.getString("status")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 }
