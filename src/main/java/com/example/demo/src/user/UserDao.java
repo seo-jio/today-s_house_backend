@@ -55,7 +55,7 @@ public class UserDao {
      */
 
     // 회원가입
-    public int createUser(PostUserReq postUserReq) {
+    public Long createUser(PostUserReq postUserReq) {
         String createUserQuery = "insert into User (email, password, nickname, isMarketing, isSms) VALUES (?,?,?,?,?)"; // 실행될 동적 쿼리문
         Object[] createUserParams = new Object[]{postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getNickname(), postUserReq.getIsMarketing(), postUserReq.getIsSms()}; // 동적 쿼리의 ?부분에 주입될 값
         this.jdbcTemplate.update(createUserQuery, createUserParams);
@@ -64,7 +64,7 @@ public class UserDao {
         System.out.println("회원 가입 성공");
         String lastInsertIdQuery = "select last_insert_id()"; // 가장 마지막에 삽입된(생성된) id값은 가져온다.
         System.out.println("가입한 회원의 userIdx = " + lastInsertIdQuery);
-        return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery, long.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
     }
 
     // 이메일 확인
@@ -92,7 +92,7 @@ public class UserDao {
 
         return this.jdbcTemplate.queryForObject(getPwdQuery,
                 (rs, rowNum) -> new User(
-                        rs.getInt("userIdx"),
+                        rs.getLong("userIdx"),
                         rs.getString("email"),
                         rs.getString("password"),
                         rs.getString("nickname")
@@ -106,7 +106,7 @@ public class UserDao {
         String getUsersQuery = "select * from User"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs, rowNum) -> new GetUserRes(
-                        rs.getInt("userIdx"),
+                        rs.getLong("userIdx"),
                         rs.getString("nickname"),
                         rs.getString("Email"),
                         rs.getString("password"),
@@ -120,7 +120,7 @@ public class UserDao {
         String getUsersByNicknameParams = nickname;
         return this.jdbcTemplate.query(getUsersByNicknameQuery,
                 (rs, rowNum) -> new GetUserRes(
-                        rs.getInt("userIdx"),
+                        rs.getLong("userIdx"),
                         rs.getString("nickname"),
                         rs.getString("Email"),
                         rs.getString("password"),
@@ -129,12 +129,12 @@ public class UserDao {
     }
 
     // 해당 userIdx를 갖는 유저조회
-    public GetUserRes getUser(int userIdx) {
+    public GetUserRes getUser(Long userIdx) {
         String getUserQuery = "select * from User where userIdx = ?"; // 해당 userIdx를 만족하는 유저를 조회하는 쿼리문
-        int getUserParams = userIdx;
+        Long getUserParams = userIdx;
         return this.jdbcTemplate.queryForObject(getUserQuery,
                 (rs, rowNum) -> new GetUserRes(
-                        rs.getInt("userIdx"),
+                        rs.getLong("userIdx"),
                         rs.getString("nickname"),
                         rs.getString("Email"),
                         rs.getString("password"),

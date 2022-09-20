@@ -200,7 +200,7 @@ public class OAuthService{
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
         try {
-            int userIdx = oAuthDao.createUserOAuth(postUserOAuthReq);
+            Long userIdx = oAuthDao.createUserOAuth(postUserOAuthReq);
             String jwt = jwtService.createJwt(userIdx);
             return new PostUserOAuthRes(userIdx, jwt);
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.

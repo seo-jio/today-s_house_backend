@@ -58,7 +58,7 @@ public class UserService {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
         try {
-            int userIdx = userDao.createUser(postUserReq);
+            Long userIdx = userDao.createUser(postUserReq);
             String jwt = jwtService.createJwt(userIdx);
             return new PostUserRes(userIdx, jwt);
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
