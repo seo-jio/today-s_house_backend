@@ -44,6 +44,7 @@ public class UserService {
     // ******************************************************************************
     // 회원가입(POST)
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
+        System.out.println("User service start");
         // 중복 확인: 해당 이메일을 가진 유저가 있는지 확인합니다. 중복될 경우, 에러 메시지를 보냅니다.
         if (userProvider.checkEmail(postUserReq.getEmail()) == 1) {
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
@@ -62,7 +63,8 @@ public class UserService {
             String jwt = jwtService.createJwt(userIdx);
             return new PostUserRes(userIdx, jwt);
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
-            log.error(exception.getMessage());
+            System.out.println("error : " + exception.getMessage());
+//            log.error(exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -75,6 +77,22 @@ public class UserService {
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void follow(Long userIdx, Long followingId) throws BaseException{
+        try{
+            userDao.follow(userIdx, followingId);
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void unfollow(Long userIdx, Long followingId) throws BaseException{
+        try{
+            userDao.unfollow(userIdx, followingId);
+        }catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }

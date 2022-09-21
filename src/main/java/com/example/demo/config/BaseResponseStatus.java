@@ -34,6 +34,8 @@ public enum BaseResponseStatus {
     POST_USERS_DELETED_USER(false, 2021, "탈퇴한 회원입니다."),
     POST_USERS_SLEEPER_ACCOUNT(false, 2022, "휴먼 계정입니다."),
 
+    // [POST] /photo
+    POST_PHOTO_INVALID_TYPE(false, 2023, "사진 타입이 올바르지 않습니다."),
 
 
     /**

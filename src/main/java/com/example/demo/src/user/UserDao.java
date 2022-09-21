@@ -56,8 +56,9 @@ public class UserDao {
 
     // 회원가입
     public Long createUser(PostUserReq postUserReq) {
-        String createUserQuery = "insert into User (email, password, nickname, isMarketing, isSms) VALUES (?,?,?,?,?)"; // 실행될 동적 쿼리문
-        Object[] createUserParams = new Object[]{postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getNickname(), postUserReq.getIsMarketing(), postUserReq.getIsSms()}; // 동적 쿼리의 ?부분에 주입될 값
+        System.out.println("Create User Start");
+        String createUserQuery = "insert into User (email, password, nickname, isMarketing) VALUES (?,?,?,?)"; // 실행될 동적 쿼리문
+        Object[] createUserParams = new Object[]{postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getNickname(), postUserReq.getIsMarketing()}; // 동적 쿼리의 ?부분에 주입될 값
         this.jdbcTemplate.update(createUserQuery, createUserParams);
         // email -> postUserReq.getEmail(), password -> postUserReq.getPassword(), nickname -> postUserReq.getNickname() 로 매핑(대응)시킨다음 쿼리문을 실행한다.
         // 즉 DB의 User Table에 (email, password, nickname)값을 가지는 유저 데이터를 삽입(생성)한다.
@@ -140,5 +141,17 @@ public class UserDao {
                         rs.getString("password"),
                         rs.getString("status")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+    }
+
+    public void follow(Long userIdx, Long followingId) {
+        String followQuery = "insert into Follow(userIdx, followingId) values (?, ?)";
+        Object[] createUserParams = new Object[]{userIdx, followingId};
+        this.jdbcTemplate.update(followQuery, createUserParams);
+    }
+
+    public void unfollow(Long userIdx, Long followingId) {
+        String followQuery = "delete from Follow f where f.userIdx = ? and f.followingId = ?";
+        Object[] createUserParams = new Object[]{userIdx, followingId};
+        this.jdbcTemplate.update(followQuery, createUserParams);
     }
 }
