@@ -11,4 +11,5 @@ public class PostUserReq {
     private String password;
     private String nickname;
     private String isMarketing;
+    private String isReceive;
 }
