@@ -21,16 +21,12 @@ public class OAuthController {
      */
     @ResponseBody
     @GetMapping("/kakao")
-    public BaseResponse<PostUserOAuthRes> kakaoCallback(@RequestParam String code) {
+    public BaseResponse<PostUserOAuthRes> kakaoSingup(@RequestParam String code) {
         try{
             System.out.println("code = " + code);
             String accessToken = oAuthService.getKakaoAccessToken(code); //코드로 부터 access token 추출
             System.out.println("accessToken = " + accessToken);
             PostUserOAuthRes postUserOAuthRes = oAuthService.createKakaoUserReal(accessToken);  //access token에서 사용자 정보 추출
-
-//            oAuthService.createKakaoUser(accessToken);  //access token에서 사용자 정보 추출
-//            PostUserOAuthRes postUserOAuthRes = new PostUserOAuthRes(1, "hello");
-
             return new BaseResponse<>(postUserOAuthRes);
         }catch(BaseException baseException){
             return new BaseResponse<>(baseException.getStatus());

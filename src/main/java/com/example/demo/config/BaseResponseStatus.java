@@ -43,6 +43,9 @@ public enum BaseResponseStatus {
 
     // Reviews 2300번 부터 시작
 
+    // Photo 2400번 부터 시작
+    // [POST] /photo
+    POST_PHOTO_INVALID_TYPE(false, 2423, "사진 타입이 올바르지 않습니다."),
 
 
     /**
