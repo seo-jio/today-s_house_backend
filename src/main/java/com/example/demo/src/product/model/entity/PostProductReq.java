@@ -18,8 +18,8 @@ public class PostProductReq {
     String category2;
     Boolean isTodayDeal;
     String eventDeadline;
-    List<MultipartFile> productPhotos;
-    List<MultipartFile> expPhotos;
+    List<String> productPhotos;
+    List<String> expPhotos;
     List<String> optionNames;
     List<String> optionPrices;
 }
