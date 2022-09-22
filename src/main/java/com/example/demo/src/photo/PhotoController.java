@@ -9,6 +9,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.demo.config.BaseResponseStatus.INVALID_USER_JWT;
+import static com.example.demo.config.BaseResponseStatus.SUCCESS;
 
 @RestController
 @RequestMapping("/api/photos")
@@ -28,7 +29,6 @@ public class PhotoController {
             PostPhotoRes postPhotoRes = photoService.createPhoto(postPhotoReq);
             return new BaseResponse<>(postPhotoRes);
         }catch(BaseException baseException){
-            System.out.println("baseException.getMessage() = " + baseException.getMessage());
             return new BaseResponse<>(baseException.getStatus());
         }
     }
@@ -53,7 +53,7 @@ public class PhotoController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             photoService.deletePhoto(photoId);
-            return null;
+            return new BaseResponse<>(SUCCESS);
         }catch(BaseException baseException){
             return new BaseResponse<>(baseException.getStatus());
         }
@@ -68,7 +68,7 @@ public class PhotoController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             photoService.changeType(patchPhotoTypeReq);
-            return null;
+            return new BaseResponse<>(SUCCESS);
         }catch(BaseException baseException){
             return new BaseResponse<>(baseException.getStatus());
         }
@@ -83,7 +83,7 @@ public class PhotoController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             photoService.changeText(patchPhotoTextReq);
-            return null;
+            return new BaseResponse<>(SUCCESS);
         }catch(BaseException baseException){
             return new BaseResponse<>(baseException.getStatus());
         }
