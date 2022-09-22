@@ -36,9 +36,9 @@ public class CategoryDao {
                 rs.getLong(2),
                 rs.getString(3),
                 rs.getInt(4),
+                rs.getTimestamp(5),
                 rs.getTimestamp(6),
-                rs.getTimestamp(7),
-                rs.getString(8)
+                rs.getString(7)
         ), params);
     }
 
@@ -51,9 +51,9 @@ public class CategoryDao {
                 rs.getLong(2),
                 rs.getString(3),
                 rs.getInt(4),
+                rs.getTimestamp(5),
                 rs.getTimestamp(6),
-                rs.getTimestamp(7),
-                rs.getString(8)
+                rs.getString(7)
         ), params);
 
     }
@@ -65,9 +65,9 @@ public class CategoryDao {
                 rs.getLong(2),
                 rs.getString(3),
                 rs.getInt(4),
+                rs.getTimestamp(5),
                 rs.getTimestamp(6),
-                rs.getTimestamp(7),
-                rs.getString(8)
+                rs.getString(7)
         ));
     }
 
@@ -78,4 +78,47 @@ public class CategoryDao {
         return jdbcTemplate.queryForObject("select last_insert_id()", Long.class);
     }
 
+    public Boolean isCategoryIdExist(Long categoryId) {
+        String getQuery = "select count(*) from Category where categoryId = ?";
+        Object[] params = {categoryId};
+
+        return jdbcTemplate.queryForObject(getQuery, Integer.class, params) == 1;
+    }
+
+    public Category findByCategoryId(Long categoryId) {
+        String getQuery = "select * from Category where categoryId = "+categoryId.toString();
+        return jdbcTemplate.queryForObject(getQuery, (rs, rowNum) -> new Category(
+                rs.getLong(1),
+                rs.getLong(2),
+                rs.getString(3),
+                rs.getInt(4),
+                rs.getTimestamp(5),
+                rs.getTimestamp(6),
+                rs.getString(7)
+        ));
+    }
+
+    public Boolean updateCategory(Long categoryId, String categoryName, Long parentCategoryId, int depth) {
+        String updateQuery = "update Category set categoryName = ?, parentCategoryId = ?, depth = ? where categoryId = ?";
+        Object[] params = {categoryName, parentCategoryId, depth, categoryId};
+        return jdbcTemplate.update(updateQuery, params) == 1;
+    }
+
+    public List<Category> findByDepth(Integer depth) {
+        String getQuery = "select * from Category where depth = ?";
+        return jdbcTemplate.query(getQuery, (rs, rowNum) -> new Category(
+                rs.getLong(1),
+                rs.getLong(2),
+                rs.getString(3),
+                rs.getInt(4),
+                rs.getTimestamp(5),
+                rs.getTimestamp(6),
+                rs.getString(7)
+        ), new Object[]{depth});
+    }
+
+    public void deleteByCategoryId(Long categoryId) {
+        String delQuery = "delete * from Category where categoryId = " + categoryId.toString();
+        jdbcTemplate.update(delQuery);
+    }
 }

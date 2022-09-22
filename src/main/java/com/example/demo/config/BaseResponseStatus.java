@@ -44,7 +44,6 @@ public enum BaseResponseStatus {
     // Reviews 2300번 부터 시작
 
 
-    CATEGORY_EXIST(false, 20000, "카테고리가 이미 존재합니다."),
 
     /**
      * 3000 : Response 오류
@@ -65,6 +64,11 @@ public enum BaseResponseStatus {
 
     // Reviews 3300번 부터 시작
 
+    // Categories 3400번 부터 시작
+    CATEGORY_NOT_FOUND(false, 3401, "존재하지 않는 카테고리 입니다." ),
+    CATEGORY_EXIST(false, 3402, "카테고리가 이미 존재합니다."),
+    CATEGORY_CHILDREN_EXIST(false, 3403, "삭제하려는 카테고리의 하위 카테고리가 존재합니다."),
+
 
 
     /**
@@ -79,7 +83,6 @@ public enum BaseResponseStatus {
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
-
 
 
 
