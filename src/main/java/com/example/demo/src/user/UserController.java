@@ -215,7 +215,7 @@ public class UserController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             userService.follow(userIdx, followingId);
-            return null;
+            return new BaseResponse<>(SUCCESS);
         }catch(BaseException baseException){
             return new BaseResponse<>(baseException.getStatus());
         }
@@ -230,7 +230,7 @@ public class UserController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             userService.unfollow(userIdx, followingId);
-            return null;
+            return new BaseResponse<>(SUCCESS);
         }catch(BaseException baseException){
             return new BaseResponse<>(baseException.getStatus());
         }
