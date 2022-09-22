@@ -16,7 +16,7 @@ public class OAuthDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public int createUserOAuth(PostUserOAuthReq postUserOAuthReq) {
+    public Long createUserOAuth(PostUserOAuthReq postUserOAuthReq) {
         String createUserQuery = "insert into User (email, password, nickname) VALUES (?,?,?)"; // 실행될 동적 쿼리문
         Object[] createUserParams = new Object[]{postUserOAuthReq.getEmail(), postUserOAuthReq.getPassword(), postUserOAuthReq.getNickname()}; // 동적 쿼리의 ?부분에 주입될 값
         this.jdbcTemplate.update(createUserQuery, createUserParams);
@@ -25,6 +25,6 @@ public class OAuthDao {
         System.out.println("회원 가입 성공");
         String lastInsertIdQuery = "select last_insert_id()"; // 가장 마지막에 삽입된(생성된) id값은 가져온다.
         System.out.println("가입한 휘원의 userIdx = " + lastInsertIdQuery);
-        return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery, long.class); // 해당 쿼리문의 결과 마지막으로 삽인된 유저의 userIdx번호를 반환한다.
     }
 }

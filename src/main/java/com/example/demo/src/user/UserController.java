@@ -19,7 +19,7 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
                 //  [Presentation Layer?] 클라이언트와 최초로 만나는 곳으로 데이터 입출력이 발생하는 곳
                 //  Web MVC 코드에 사용되는 어노테이션. @RequestMapping 어노테이션을 해당 어노테이션 밑에서만 사용할 수 있다.
                 // @ResponseBody    모든 method의 return object를 적절한 형태로 변환 후, HTTP Response Body에 담아 반환.
-@RequestMapping("/app/users")
+@RequestMapping("/api/users")
 // method가 어떤 HTTP 요청을 처리할 것인가를 작성한다.
 // 요청에 대해 어떤 Controller, 어떤 메소드가 처리할지를 맵핑하기 위한 어노테이션
 // URL(/app/users)을 컨트롤러의 메서드와 매핑할 때 사용
@@ -103,7 +103,7 @@ public class UserController {
             return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
         }
         try {
-            int userIdxFindByJwt = jwtService.getUserIdx();
+            Long userIdxFindByJwt = jwtService.getUserIdx();
             GetUserRes getUserRes = userProvider.getUser(userIdxFindByJwt);
             if (getUserRes.getStatus() == "N"){
                 return new BaseResponse<>(POST_USERS_DELETED_USER);
@@ -161,13 +161,13 @@ public class UserController {
     // Path-variable
     @ResponseBody
     @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/app/users/:userIdx
-    public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
+    public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") Long userIdx) {
         // @PathVariable RESTful(URL)에서 명시된 파라미터({})를 받는 어노테이션, 이 경우 userId값을 받아옴.
         //  null값 or 공백값이 들어가는 경우는 적용하지 말 것
         //  .(dot)이 포함된 경우, .을 포함한 그 뒤가 잘려서 들어감
         // Get Users
         try {
-            int userIdxFindByJwt = jwtService.getUserIdx();
+            Long userIdxFindByJwt = jwtService.getUserIdx();
             if(userIdxFindByJwt != userIdx){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
@@ -185,11 +185,11 @@ public class UserController {
      */
     @ResponseBody
     @PatchMapping("/change-nickname/{userIdx}")
-    public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user) {
+    public BaseResponse<String> modifyUserName(@PathVariable("userIdx") Long userIdx, @RequestBody User user) {
         try {
 //  *********** 해당 부분은 7주차 - JWT 수업 후 주석해체 해주세요!  ****************
             //jwt에서 idx 추출.
-            int userIdxByJwt = jwtService.getUserIdx();
+            Long userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
             if(userIdx != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
@@ -203,6 +203,36 @@ public class UserController {
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/{userIdx}/follow/{followingId}")
+    public BaseResponse<?> follow(@PathVariable Long userIdx, @PathVariable Long followingId){
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.follow(userIdx, followingId);
+            return new BaseResponse<>(SUCCESS);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/{userIdx}/follow/{followingId}")
+    public BaseResponse<?> unfollow(@PathVariable Long userIdx, @PathVariable Long followingId){
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.unfollow(userIdx, followingId);
+            return new BaseResponse<>(SUCCESS);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
         }
     }
 }

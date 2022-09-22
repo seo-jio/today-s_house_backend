@@ -54,7 +54,7 @@ public class UserProvider {
         }
 
         if (postLoginReq.getPassword().equals(password)) { //비말번호가 일치한다면 userIdx를 가져온다.
-            int userIdx = userDao.getPwd(postLoginReq).getUserIdx();
+            Long userIdx = userDao.getPwd(postLoginReq).getUserIdx();
 //            return new PostLoginRes(userIdx);
 //  *********** 해당 부분은 7주차 - JWT 수업 후 주석해제 및 대체해주세요!  **************** //
 //            String jwt = jwtService.getJwt();  //로그인 시 회원 가입 때 발급받은 JWT를 사용하도록 변경
@@ -99,7 +99,7 @@ public class UserProvider {
 
 
     // 해당 userIdx를 갖는 User의 정보 조회
-    public GetUserRes getUser(int userIdx) throws BaseException {
+    public GetUserRes getUser(Long userIdx) throws BaseException {
         try {
             GetUserRes getUserRes = userDao.getUser(userIdx);
             return getUserRes;

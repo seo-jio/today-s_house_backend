@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PostUserOAuthRes {
-    private int userIdx;
+    private Long userIdx;
     private String jwt;
 }

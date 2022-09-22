@@ -24,6 +24,7 @@ public enum BaseResponseStatus {
 
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
+    USER_NOT_FOUND(false, 2011, "존재하지 않는 유저id 입니다"),
 
     // [POST] /users
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
@@ -34,6 +35,17 @@ public enum BaseResponseStatus {
     POST_USERS_DELETED_USER(false, 2021, "탈퇴한 회원입니다."),
     POST_USERS_SLEEPER_ACCOUNT(false, 2022, "휴먼 계정입니다."),
 
+    // Product 2100번 부터 시작
+
+
+    // Orders 2200번 부터 시작
+
+
+    // Reviews 2300번 부터 시작
+
+    // Photo 2400번 부터 시작
+    // [POST] /photo
+    POST_PHOTO_INVALID_TYPE(false, 2423, "사진 타입이 올바르지 않습니다."),
 
 
     /**
@@ -45,6 +57,20 @@ public enum BaseResponseStatus {
     // [POST] /users
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
+
+    // Product 3100번 부터 시작
+
+    PRODUCT_NOT_FOUND(false, 3100, "존재하지 않는 상품 번호 입니다."),
+
+    // Orders 3200번 부터 시작
+
+
+    // Reviews 3300번 부터 시작
+
+    // Categories 3400번 부터 시작
+    CATEGORY_NOT_FOUND(false, 3401, "존재하지 않는 카테고리 입니다." ),
+    CATEGORY_EXIST(false, 3402, "카테고리가 이미 존재합니다."),
+    CATEGORY_CHILDREN_EXIST(false, 3403, "삭제하려는 카테고리의 하위 카테고리가 존재합니다."),
 
 
 
@@ -60,6 +86,10 @@ public enum BaseResponseStatus {
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+
+
+
+
 
 
     // 5000 : 필요시 만들어서 쓰세요
