@@ -4,10 +4,12 @@ import com.example.demo.src.product.model.ProductThumbnail;
 import com.example.demo.src.user.model.GetUserRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
 
+@Repository
 public class ProductDao {
 
     private JdbcTemplate jdbcTemplate;
@@ -16,19 +18,6 @@ public class ProductDao {
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-    /*
-    *
-    Long productId;
-    String thumbnailUrl;
-    String name;
-    Integer originalPrice;
-    Integer discountedPrice;
-    Boolean isScrabbed;
-    Float totalScore;
-    Integer numReviews;
-    String brandName;
-    * */
-
 
     public List<ProductThumbnail> findTodaysDealProducts() {
         String getquery = "select * ,\n" +

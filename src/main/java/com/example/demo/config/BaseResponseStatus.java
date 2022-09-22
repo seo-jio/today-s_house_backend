@@ -35,6 +35,7 @@ public enum BaseResponseStatus {
     POST_USERS_SLEEPER_ACCOUNT(false, 2022, "휴먼 계정입니다."),
 
 
+    CATEGORY_EXIST(false, 20000, "카테고리가 이미 존재합니다."),
 
     /**
      * 3000 : Response 오류
