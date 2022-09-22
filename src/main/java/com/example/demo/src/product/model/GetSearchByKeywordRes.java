@@ -7,8 +7,8 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter @AllArgsConstructor
-public class GetProductsMainRes {
+public class GetSearchByKeywordRes {
+
     List<ProductThumbnail> todaysDeal;
     List<ProductThumbnail> favorites;
-
 }
