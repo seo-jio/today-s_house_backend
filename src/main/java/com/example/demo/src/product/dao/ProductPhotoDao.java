@@ -1,5 +1,6 @@
 package com.example.demo.src.product.dao;
 
+import com.example.demo.src.product.ProductProvider;
 import com.example.demo.src.product.model.ProductThumbnail;
 import com.example.demo.src.product.model.entity.ProductPhoto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -34,5 +36,13 @@ public class ProductPhotoDao {
                         rs.getString(7)
                 ),
                 params);
+    }
+
+    public Long createProductPhoto(Long productId, String photoUrl, int sequenceNo) {
+        String createQuery = "Insert into ProductPhoto(productId, productPhotoUrl, sequenceNo) values(?, ?, ?) ";
+        Object[] params = {productId, photoUrl, sequenceNo};
+        this.jdbcTemplate.update(createQuery, params);
+        return jdbcTemplate.queryForObject("select last_insert_id()", Long.class);
+
     }
 }
