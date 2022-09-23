@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
+import static java.lang.Boolean.*;
 
 //Provider : Read의 비즈니스 로직 처리
 @Service    // [Business Layer에서 Service를 명시하기 위해서 사용] 비즈니스 로직이나 respository layer 호출하는 함수에 사용된다.
@@ -93,6 +94,22 @@ public class UserProvider {
             List<GetUserRes> getUsersRes = userDao.getUsersByNickname(nickname);
             return getUsersRes;
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public Boolean isExist(Long userIdx) throws BaseException{
+        try{
+            List<GetUserRes> getUserResList = userDao.getUsers();
+            long count = getUserResList.stream().filter(getUserRes -> getUserRes.getUserIdx().equals(userIdx)).count();
+            System.out.println("count = " + count);
+            if (count > 0){
+                return TRUE;
+            }
+            else{
+                return FALSE;
+            }
+        }catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }

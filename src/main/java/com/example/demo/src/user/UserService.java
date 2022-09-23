@@ -3,6 +3,7 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
+import com.example.demo.src.user.model.GetMyDetailRes;
 import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.src.user.model.PostUserReq;
 import com.example.demo.src.user.model.PostUserRes;
@@ -92,6 +93,15 @@ public class UserService {
     public void unfollow(Long userIdx, Long followingId) throws BaseException{
         try{
             userDao.unfollow(userIdx, followingId);
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetMyDetailRes getMyDetail(Long userIdx) throws BaseException{
+        try{
+            GetMyDetailRes getMyDetailRes = new GetMyDetailRes();
+            return getMyDetailRes;
         }catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }

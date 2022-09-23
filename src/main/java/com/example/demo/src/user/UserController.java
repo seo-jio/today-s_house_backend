@@ -235,4 +235,19 @@ public class UserController {
             return new BaseResponse<>(baseException.getStatus());
         }
     }
+
+    @ResponseBody
+    @GetMapping("/mydetail/{userIdx}")
+    public BaseResponse<GetMyDetailRes> getMyDetail(@PathVariable Long userIdx){
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            GetMyDetailRes getMyDetailRes = userService.getMyDetail(userIdx);
+            return new BaseResponse<>(getMyDetailRes);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
 }
