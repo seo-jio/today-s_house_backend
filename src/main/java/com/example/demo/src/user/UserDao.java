@@ -245,4 +245,10 @@ public class UserDao {
                         rs.getString("FPhotoUrl")),
                 params);
     }
+
+    public void setDefaultAddresss(Long buyerId, Long addressId) {
+        String query = "update User set addressId = ? where userIdx = ?";
+        Object[] params = new Object[]{buyerId, addressId};
+        jdbcTemplate.update(query, params);
+    }
 }
