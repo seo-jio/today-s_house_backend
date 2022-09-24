@@ -33,8 +33,7 @@ public class ProductProvider {
     private final CategoryService categoryService;
 
     public Boolean isProductExist(Long productId){
-        // TODO : DAO 연결해서 구현하기.
-        return true;
+        return productDao.isProductIdExist(productId);
     }
 
     public GetProductsMainRes getMainProducts() {
@@ -115,7 +114,13 @@ public class ProductProvider {
     }
 
 
-
-
+    public boolean isProductOptionExist(Long productId, Long productOptionId) {
+        List<ProductOption> byProductId = productOptionDao.findByProductId(productId);
+        for(ProductOption option : byProductId){
+            if(option.getProductOptionId() == productOptionId)
+                return true;
+        }
+        return false;
+    }
 }
 

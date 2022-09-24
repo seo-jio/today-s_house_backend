@@ -61,6 +61,7 @@ public enum BaseResponseStatus {
     // Product 3100번 부터 시작
 
     PRODUCT_NOT_FOUND(false, 3100, "존재하지 않는 상품 번호 입니다."),
+    PRODUCT_OPTION_NOT_FOUND(false, 3101, "존재하지 않는 상품 옵션 번호입니다."),
 
     // Orders 3200번 부터 시작
 

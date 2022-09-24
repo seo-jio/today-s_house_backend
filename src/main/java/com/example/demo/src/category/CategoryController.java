@@ -68,7 +68,7 @@ public class CategoryController {
         return new BaseResponse<>(categories);
     }
 
-    @GetMapping("/{categoryId}/children")
+    @GetMapping("/{parentId}/children")
     public BaseResponse<?> getCategoriesByParentId(@PathVariable Long parentId){
         if(!categoryService.isCategoryIdExist(parentId))
             return new BaseResponse<>(BaseResponseStatus.CATEGORY_NOT_FOUND);
