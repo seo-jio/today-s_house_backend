@@ -34,4 +34,11 @@ public class ExpPhotoDao {
                 ),
                 params);
     }
+
+    public Long createExpPhoto(Long productId, String expPhotoUrl, int sequenceNo) {
+        String createQuery = "Insert into ExpPhoto(productId, expPhotoUrl, sequenceNo) values(?, ?, ?) ";
+        Object[] params = {productId, expPhotoUrl, sequenceNo};
+        this.jdbcTemplate.update(createQuery, params);
+        return jdbcTemplate.queryForObject("select last_insert_id()", Long.class);
+    }
 }

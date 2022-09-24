@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service @RequiredArgsConstructor @Slf4j
@@ -52,5 +54,16 @@ public class CategoryService {
 
     public void deleteById(Long categoryId) {
         categoryDao.deleteByCategoryId(categoryId);
+    }
+
+    public List<Category> getCategoryTree(Long category2) {
+        List<Category> result = new ArrayList<>();
+        while(category2 != 0) {
+            Category c = getCategoryById(category2);
+            result.add(c);
+            category2 = c.getParentCategoryId();
+        }
+        Collections.reverse(result);
+        return result;
     }
 }
