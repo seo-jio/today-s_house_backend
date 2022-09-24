@@ -64,6 +64,7 @@ public enum BaseResponseStatus {
     PRODUCT_OPTION_NOT_FOUND(false, 3101, "존재하지 않는 상품 옵션 번호입니다."),
 
     // Orders 3200번 부터 시작
+    ORDER_NOT_FOUND(false, 3200, "존재하지 않는 주문 번호 입니다."),
 
 
     // Reviews 3300번 부터 시작
@@ -92,6 +93,7 @@ public enum BaseResponseStatus {
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+
 
 
 
