@@ -29,6 +29,7 @@ public class PhotoService {
             Long photoId = photoDao.createPhoto(postPhotoReq);
             return new PostPhotoRes(photoId);
         }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -51,6 +52,7 @@ public class PhotoService {
             }
             photoDao.changeType(patchPhotoTypeReq);
         }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
