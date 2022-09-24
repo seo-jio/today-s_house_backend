@@ -1,5 +1,8 @@
 package com.example.demo.src.test;
 
+import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponse;
+import com.example.demo.src.user.UserProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ public class TestController {
     @Autowired
     public TestController() {}
 
+    @Autowired
+    private UserProvider userProvider;
     /**
      * 로그 테스트 API
      * [GET] /test/log
@@ -38,5 +43,15 @@ public class TestController {
         logger.error("ERROR Level 테스트");
 
         return "Success Test";
+    }
+
+    @ResponseBody
+    @GetMapping("/isExist")
+    public BaseResponse<?> isExist(){
+        try{
+            return new BaseResponse<>(userProvider.isExist(20L));
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
     }
 }

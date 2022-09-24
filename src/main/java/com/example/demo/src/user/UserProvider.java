@@ -2,17 +2,21 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
+import com.example.demo.src.scrab.ScrabService;
+import com.example.demo.src.scrab.model.ScrabItem;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.AES128;
 import com.example.demo.utils.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
+import static java.lang.Boolean.*;
 
 //Provider : Read의 비즈니스 로직 처리
 @Service    // [Business Layer에서 Service를 명시하기 위해서 사용] 비즈니스 로직이나 respository layer 호출하는 함수에 사용된다.
@@ -23,21 +27,21 @@ import static com.example.demo.config.BaseResponseStatus.*;
  * 요청한 작업을 처리하는 관정을 하나의 작업으로 묶음
  * dao를 호출하여 DB CRUD를 처리 후 Controller로 반환
  */
+@RequiredArgsConstructor
 public class UserProvider {
 
 
     // *********************** 동작에 있어 필요한 요소들을 불러옵니다. *************************
     private final UserDao userDao;
-    private final JwtService jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
+    private final JwtService jwtService;
+    private final ScrabService scrabService;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-    final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired //readme 참고
-    public UserProvider(UserDao userDao, JwtService jwtService) {
-        this.userDao = userDao;
-        this.jwtService = jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
-    }
+//    @Autowired //readme 참고
+//    public UserProvider(UserDao userDao, JwtService jwtService) {
+//        this.userDao = userDao;
+//        this.jwtService = jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
+//    }
     // ******************************************************************************
 
 
@@ -97,6 +101,22 @@ public class UserProvider {
         }
     }
 
+    public Boolean isExist(Long userIdx) throws BaseException{
+        try{
+            List<GetUserRes> getUserResList = userDao.getUsers();
+            long count = getUserResList.stream().filter(getUserRes -> getUserRes.getUserIdx().equals(userIdx)).count();
+            System.out.println("count = " + count);
+            if (count > 0){
+                return TRUE;
+            }
+            else{
+                return FALSE;
+            }
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 
     // 해당 userIdx를 갖는 User의 정보 조회
     public GetUserRes getUser(Long userIdx) throws BaseException {
@@ -104,6 +124,40 @@ public class UserProvider {
             GetUserRes getUserRes = userDao.getUser(userIdx);
             return getUserRes;
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetMyProfileRes getMyprofile(Long userIdx) throws BaseException{
+        try{
+            GetMyProfileRes getMyProfileRes = userDao.getMyprofile(userIdx);
+            List<ScrabItem> scrabItems = scrabService.getScrabItems(userIdx);
+            getMyProfileRes.setScrabItemCount(scrabItems.size()); //scrab item 총 개수 세팅
+            List<String> scrabItemImageUrls = new ArrayList<>();
+            for (ScrabItem scrabItem : scrabItems) {
+                scrabItemImageUrls.add(scrabItem.getImageUrl());
+            }
+            getMyProfileRes.setScrabItemImageUrls(scrabItemImageUrls);  //scrab item 이미지 url 세팅
+            return getMyProfileRes;
+        }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetOtherProfileRes getOtherprofile(Long userIdx) throws BaseException{
+        try{
+            GetOtherProfileRes getOtherProfileRes = userDao.getOtherProfile(userIdx);
+            List<ScrabItem> scrabItems = scrabService.getScrabItems(userIdx);
+            getOtherProfileRes.setScrabItemCount(scrabItems.size()); //scrab item 총 개수 세팅
+            List<String> scrabItemImageUrls = new ArrayList<>();
+            for (ScrabItem scrabItem : scrabItems) {
+                scrabItemImageUrls.add(scrabItem.getImageUrl());
+            }
+            getOtherProfileRes.setScrabItemImageUrls(scrabItemImageUrls);  //scrab item 이미지 url 세팅
+            return getOtherProfileRes;
+        }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }

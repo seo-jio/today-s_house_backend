@@ -76,6 +76,10 @@ public enum BaseResponseStatus {
     // Seller 관련 3500 부터 시작
     SELLER_NOT_FOUND(false, 3501, "존해하지 않는 sellerId 입니다"),
 
+    // Scrab 3600번 부터 시작
+    SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
+
+
     /**
      * 4000 : Database, Server 오류
      */
