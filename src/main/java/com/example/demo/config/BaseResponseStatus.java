@@ -78,6 +78,7 @@ public enum BaseResponseStatus {
     // Scrab 3600번 부터 시작
     SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
 
+
     /**
      * 4000 : Database, Server 오류
      */
