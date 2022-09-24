@@ -72,6 +72,11 @@ public enum BaseResponseStatus {
     CATEGORY_EXIST(false, 3402, "카테고리가 이미 존재합니다."),
     CATEGORY_CHILDREN_EXIST(false, 3403, "삭제하려는 카테고리의 하위 카테고리가 존재합니다."),
 
+    // Seller 관련 3500 부터 시작
+    SELLER_NOT_FOUND(false, 3501, "존해하지 않는 sellerId 입니다"),
+
+    // Scrab 3600번 부터 시작
+    SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
 
 
     /**
@@ -86,6 +91,7 @@ public enum BaseResponseStatus {
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+
 
 
 

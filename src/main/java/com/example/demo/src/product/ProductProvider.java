@@ -1,18 +1,23 @@
 package com.example.demo.src.product;
 
+import com.example.demo.src.category.CategoryService;
+import com.example.demo.src.category.model.Category;
 import com.example.demo.src.product.dao.ExpPhotoDao;
 import com.example.demo.src.product.dao.ProductDao;
+import com.example.demo.src.product.dao.ProductOptionDao;
 import com.example.demo.src.product.dao.ProductPhotoDao;
 import com.example.demo.src.product.model.GetProductDetailRes;
 import com.example.demo.src.product.model.GetProductsMainRes;
-import com.example.demo.src.product.model.GetSearchByKeywordRes;
+import com.example.demo.src.product.model.GetSearchRes;
 import com.example.demo.src.product.model.ProductThumbnail;
 import com.example.demo.src.product.model.entity.ExpPhoto;
+import com.example.demo.src.product.model.entity.ProductOption;
 import com.example.demo.src.product.model.entity.ProductPhoto;
 import com.example.demo.src.user.model.GetUserRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +29,8 @@ public class ProductProvider {
     private final ProductDao productDao;
     private final ProductPhotoDao productPhotoDao;
     private final ExpPhotoDao expPhotoDao;
+    private final ProductOptionDao productOptionDao;
+    private final CategoryService categoryService;
 
     public Boolean isProductExist(Long productId){
         // TODO : DAO 연결해서 구현하기.
@@ -39,24 +46,31 @@ public class ProductProvider {
     public GetProductDetailRes findByProductId(Long productId) {
         GetProductDetailRes base = productDao.findByProductId(productId);
 
+        // 카테고리 정보 조회해서 트리로 만듦.
+        List<Category> categoryList = categoryService.getCategoryTree(base.getCategory2());
+
+        // 제품 사진 가져오기
         List<ProductPhoto> productPhotos = productPhotoDao.productPhotos(productId);
         List<String> productPhotoUrls = new ArrayList<>();
         for (ProductPhoto p : productPhotos) productPhotoUrls.add(p.getProductPhotoUrl());
 
-
+        // 제품 설명 가져오기
         List<ExpPhoto> expPhotos = expPhotoDao.productPhotos(productId);
         List<String> expPhotoUrls = new ArrayList<>();
         for (ExpPhoto p : expPhotos) expPhotoUrls.add(p.getExpPhotoUrl());
 
+        // 제품 선택 옵션 가져오기
+        List<ProductOption> options = productOptionDao.findByProductId(productId);
+
+        base.setCategoryList(categoryList);
         base.setProductPhotos(productPhotoUrls);
         base.setExpPhotos(expPhotoUrls);
+        base.setOptions(options);
 
         return base;
     }
 
-    public GetSearchByKeywordRes findByKeyword(String searchKeyWord, String orderBy, Float filter, GetUserRes usr) {
-        searchKeyWord = "%"+searchKeyWord+"%";
-
+    public String orderByMapper(String orderBy){
         Map<String, String> sequenceMapper = new HashMap<>();
         //판매순, 낮은 가격순, 높은 가격순, 리뷰 많은 순, 최신순
         sequenceMapper.put("판매순", "numOrders desc");
@@ -65,18 +79,43 @@ public class ProductProvider {
         sequenceMapper.put("리뷰 많은 순", "numReviews desc");
         sequenceMapper.put("최신순", "createdAt desc");
 
-        if(filter == null)
-            filter = 0f;
         if(sequenceMapper.containsKey(orderBy))
             orderBy = sequenceMapper.get(orderBy);
         else{
             orderBy = "createdAt desc";
         }
+        return orderBy;
+    }
 
+    public GetSearchRes findByKeyword(String searchKeyWord, String orderBy, Float filter, GetUserRes usr) {
+        searchKeyWord = "%"+searchKeyWord+"%";
+
+
+        if(filter == null)
+            filter = 0f;
+        orderBy = orderByMapper(orderBy);
         List<ProductThumbnail> products = productDao.findBySearchKeyWord(searchKeyWord, orderBy, filter);
 
-        return new GetSearchByKeywordRes(products, products);
+        return new GetSearchRes(products);
     }
 
 
+    public GetSearchRes findByCategoryId(Long categoryId, String orderBy, Float filter, GetUserRes user) {
+
+        if(filter == null)
+            filter = 0f;
+        orderBy = orderByMapper(orderBy);
+        List<ProductThumbnail> products = productDao.findByCategoryId(categoryId, orderBy, filter);
+        return new GetSearchRes(products);
+    }
+
+    public GetSearchRes getTodaysDeals(Long userIdx) {
+        List<ProductThumbnail> products = productDao.findTodaysDealProducts();
+        return new GetSearchRes(products);
+    }
+
+
+
+
 }
+
