@@ -72,7 +72,8 @@ public enum BaseResponseStatus {
     CATEGORY_EXIST(false, 3402, "카테고리가 이미 존재합니다."),
     CATEGORY_CHILDREN_EXIST(false, 3403, "삭제하려는 카테고리의 하위 카테고리가 존재합니다."),
 
-
+    // Scrab 3500번 부터 시작
+    SCRAB_TYPE_INVALID(false, 3500, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
 
     /**
      * 4000 : Database, Server 오류

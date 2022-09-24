@@ -244,7 +244,7 @@ public class UserController {
             if(userIdx != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            GetMyDetailRes getMyDetailRes = userService.getMyDetail(userIdx);
+            GetMyDetailRes getMyDetailRes = userProvider.getMyDetail(userIdx);
             return new BaseResponse<>(getMyDetailRes);
         }catch(BaseException baseException){
             return new BaseResponse<>(baseException.getStatus());

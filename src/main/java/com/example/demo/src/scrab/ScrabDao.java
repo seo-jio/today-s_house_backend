@@ -18,7 +18,7 @@ public class ScrabDao {
     }
 
     public List<ScrabItem> getScrabItemPhotos(Long userIdx){
-        String getScrabPhotoQuery = "select photoId, photoUrl, createdAt from Photo p join (select * from ScrabPhoto s where userIdx = ?) as s on p.photoId = s.photoId order by createdAt desc";
+        String getScrabPhotoQuery = "select s.photoId, p.photoUrl, s.createdAt from Photo p join (select * from ScrabPhoto s where userIdx = ? and s.status = 'T') as s on p.photoId = s.photoId order by s.createdAt desc";
         Object[] getScrabPhotoParams = new Object[]{userIdx};
         Long getScrabPhotoParam = userIdx;
         return jdbcTemplate.query(getScrabPhotoQuery,
@@ -30,9 +30,8 @@ public class ScrabDao {
     }
 
     public List<ScrabItem> getScrabItemProducts(Long userIdx) {
-        String getQuery = "select productId, createdAt ,\n" +
-                "(select p.productPhotoUrl from ProductPhoto p where p.productId = Product.productId and p.sequenceNo = 0) as imageUrl,\n" +
-                "from Product, Scrab where Product.productId = Scrab.productId and Scrab.userIdx = ? order by createdAt desc";
+        String getQuery = "select s.productId, s.createdAt ,(select p.productPhotoUrl from ProductPhoto p where p.productId = p.productId and p.sequenceNo = 0) as imageUrl\n" +
+                "                from Product pr, Scrab s where pr.productId = s.productId and s.userIdx = ? and s.status = 'T' order by s.createdAt desc;";
         Object[] params = {userIdx};
         return jdbcTemplate.query(getQuery, (rs, rowNum) -> new ScrabItem(
                 "Product",

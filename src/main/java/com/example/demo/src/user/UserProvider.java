@@ -2,14 +2,18 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
+import com.example.demo.src.scrab.ScrabService;
+import com.example.demo.src.scrab.model.ScrabItem;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.AES128;
 import com.example.demo.utils.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -24,21 +28,21 @@ import static java.lang.Boolean.*;
  * 요청한 작업을 처리하는 관정을 하나의 작업으로 묶음
  * dao를 호출하여 DB CRUD를 처리 후 Controller로 반환
  */
+@RequiredArgsConstructor
 public class UserProvider {
 
 
     // *********************** 동작에 있어 필요한 요소들을 불러옵니다. *************************
     private final UserDao userDao;
-    private final JwtService jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
+    private final JwtService jwtService;
+    private final ScrabService scrabService;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-    final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired //readme 참고
-    public UserProvider(UserDao userDao, JwtService jwtService) {
-        this.userDao = userDao;
-        this.jwtService = jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
-    }
+//    @Autowired //readme 참고
+//    public UserProvider(UserDao userDao, JwtService jwtService) {
+//        this.userDao = userDao;
+//        this.jwtService = jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
+//    }
     // ******************************************************************************
 
 
@@ -121,6 +125,24 @@ public class UserProvider {
             GetUserRes getUserRes = userDao.getUser(userIdx);
             return getUserRes;
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetMyDetailRes getMyDetail(Long userIdx) throws BaseException{
+        try{
+            GetMyDetailRes getMyDetailRes = userDao.getMyDetail(userIdx);
+            System.out.println("성공했드아");
+            List<ScrabItem> scrabItems = scrabService.getScrabItems(userIdx);
+            getMyDetailRes.setScrabItemCount(scrabItems.size()); //scrab item 총 개수 세팅
+            List<String> scrabItemImageUrls = new ArrayList<>();
+            for (ScrabItem scrabItem : scrabItems) {
+                scrabItemImageUrls.add(scrabItem.getImageUrl());
+            }
+            getMyDetailRes.setScrabItemImageUrls(scrabItemImageUrls);  //scrab item 이미지 url 세팅
+            return getMyDetailRes;
+        }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }

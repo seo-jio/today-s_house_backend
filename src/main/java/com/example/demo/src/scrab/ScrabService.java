@@ -5,6 +5,8 @@ import com.example.demo.src.scrab.model.ScrabItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -19,6 +21,7 @@ public class ScrabService {
             List<ScrabItem> scrabItems = scrabDao.getScrabItemProducts(userIdx);
             return scrabItems;
         }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -28,6 +31,7 @@ public class ScrabService {
             List<ScrabItem> scrabItems = scrabDao.getScrabItemPhotos(userIdx);
             return scrabItems;
         }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -62,6 +66,21 @@ public class ScrabService {
         try{
             scrabDao.scrabCancelPhoto(userIdx, photoId);
         }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<ScrabItem> getScrabItems(Long userIdx) throws BaseException{
+        try{
+            List<ScrabItem> scrabItemsProduct = getScrabProducts(userIdx);
+            List<ScrabItem> scrabItemsPhoto = getScrabPhotos(userIdx);
+            List<ScrabItem> joinedScrabItems = new ArrayList<>();
+            joinedScrabItems.addAll(scrabItemsProduct);
+            joinedScrabItems.addAll(scrabItemsPhoto);
+            Collections.sort(joinedScrabItems);
+            return joinedScrabItems;
+        }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);
         }
     }

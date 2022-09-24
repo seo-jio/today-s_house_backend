@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.INVALID_USER_JWT;
-import static com.example.demo.config.BaseResponseStatus.SUCCESS;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,28 +23,27 @@ public class ScrabController {
 
     @ResponseBody
     @GetMapping("/{userIdx}/scrabs")
-    public BaseResponse<List<ScrabItem>> getScrabItems(@PathVariable Long userIdx, @RequestParam String filter){
+    public BaseResponse<List<ScrabItem>> getScrabItems(@PathVariable Long userIdx, @RequestParam() String filter){
         try {
             Long userIdxFindByJwt = jwtService.getUserIdx();
             if(userIdxFindByJwt != userIdx){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            if (filter == "All"){  //모두 보기
-                List<ScrabItem> scrabItemsProduct = scrabService.getScrabProducts(userIdx);
-                List<ScrabItem> scrabItemsPhoto = scrabService.getScrabPhotos(userIdx);
-                List<ScrabItem> joinedScrabItems = new ArrayList<>();
-                joinedScrabItems.addAll(scrabItemsProduct);
-                joinedScrabItems.addAll(scrabItemsPhoto);
-                Collections.sort(joinedScrabItems);
+            // 문자열 비교 시 '=='을 사용하면 주소 값을 비교하기 떄문에 .equlas()를 사용하자!!
+            if (filter.equals("All")){  //모두 보기
+                List<ScrabItem> joinedScrabItems = scrabService.getScrabItems(userIdx);
                 return new BaseResponse<>(joinedScrabItems);
             }
-            else if(filter == "Product"){ //상품 보기
+            else if(filter.equals("Product")){ //상품 보기
                 List<ScrabItem> scrabItems = scrabService.getScrabProducts(userIdx);
                 return new BaseResponse<>(scrabItems);
             }
-            else{  //사진 보기
+            else if(filter.equals("Photo")){  //사진 보기
                 List<ScrabItem> scrabItems = scrabService.getScrabPhotos(userIdx);
                 return new BaseResponse<>(scrabItems);
+            }
+            else{
+                return new BaseResponse<>(SCRAB_TYPE_INVALID);
             }
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

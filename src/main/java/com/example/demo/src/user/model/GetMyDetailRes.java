@@ -14,6 +14,8 @@ public class GetMyDetailRes {
     private String nickname;
     private int followerCount;
     private int followingCount;
+    private int likeCount;
+    private int orderCount;
     private int photoCount;
     private String LPhotoUrl;
     private String BPhotoUrl;
@@ -25,4 +27,22 @@ public class GetMyDetailRes {
     private String FPhotoUrl;
     private int scrabItemCount;
     private List<String> scrabItemImageUrls;
+
+    public GetMyDetailRes(String profileImageUrl, String nickname, int followerCount, int followingCount, int likeCount, int orderCount, int photoCount, String LPhotoUrl, String BPhotoUrl, String KPhotoUrl, String LIPhotoUrl, String VPhotoUrl, String BAPhotoUrl, String DPhotoUrl, String FPhotoUrl) {
+        this.profileImageUrl = profileImageUrl;
+        this.nickname = nickname;
+        this.followerCount = followerCount;
+        this.followingCount = followingCount;
+        this.likeCount = likeCount;
+        this.orderCount = orderCount;
+        this.photoCount = photoCount;
+        this.LPhotoUrl = LPhotoUrl;
+        this.BPhotoUrl = BPhotoUrl;
+        this.KPhotoUrl = KPhotoUrl;
+        this.LIPhotoUrl = LIPhotoUrl;
+        this.VPhotoUrl = VPhotoUrl;
+        this.BAPhotoUrl = BAPhotoUrl;
+        this.DPhotoUrl = DPhotoUrl;
+        this.FPhotoUrl = FPhotoUrl;
+    }
 }

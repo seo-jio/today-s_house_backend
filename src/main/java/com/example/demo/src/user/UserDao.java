@@ -1,6 +1,7 @@
 package com.example.demo.src.user;
 
 
+import com.example.demo.config.BaseResponse;
 import com.example.demo.src.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -151,6 +152,19 @@ public class UserDao {
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 
+    public GetUserRes getUser2(Long userIdx) {
+        String getUserQuery = "select * from User where userIdx = ?"; // 해당 userIdx를 만족하는 유저를 조회하는 쿼리문
+        Long getUserParams = userIdx;
+        return this.jdbcTemplate.queryForObject(getUserQuery,
+                (rs, rowNum) -> new GetUserRes(
+                        rs.getLong("userIdx"),
+                        rs.getString("nickname"),
+                        rs.getString("Email"),
+                        rs.getString("password"),
+                        rs.getString("status")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+    }
+
     public void follow(Long userIdx, Long followingId) {
         String followQuery = "insert into Follow(userIdx, followingId) values (?, ?)";
         Object[] createUserParams = new Object[]{userIdx, followingId};
@@ -161,5 +175,42 @@ public class UserDao {
         String followQuery = "delete from Follow f where f.userIdx = ? and f.followingId = ?";
         Object[] createUserParams = new Object[]{userIdx, followingId};
         this.jdbcTemplate.update(followQuery, createUserParams);
+    }
+
+    public GetMyDetailRes getMyDetail(Long userIdx) {
+        String query = "select profileImageUrl, nickname,\n" +
+                "       (select count(F.followId) from User join Follow F on User.userIdx = F.userIdx and F.userIdx = ?) as followingCount,\n" +
+                "       (select count(F.followId) from User join Follow F on User.userIdx = F.userIdx and F.followingId = ?) as followerCount,\n" +
+                "       (select count(*) from Likes where Likes.userIdx = ?) as likeCount,\n" +
+                "       (select count(*) from Orders where buyerIdx = ?) as orderCount,\n" +
+                "       (select count(*) as totalPhotoCount from Photo p where userIdx = ?) as photoTotalCount,\n" +
+                "       (select photoUrl from Photo where userIdx = ? and type = 'L' and createdAt = (select max(createdAt) from Photo where type = 'L')) as LPhotoUrl,\n" +
+                "       (select photoUrl from Photo where userIdx = ? and type = 'B' and createdAt = (select max(createdAt) from Photo where type = 'B')) as BPhotoUrl,\n" +
+                "       (select photoUrl from Photo where userIdx = ? and type = 'K' and createdAt = (select max(createdAt) from Photo where type = 'K')) as KPhotoUrl,\n" +
+                "       (select photoUrl from Photo where userIdx = ? and type = 'LI' and createdAt = (select max(createdAt) from Photo where type = 'LI')) as LIPhotoUrl,\n" +
+                "       (select photoUrl from Photo where userIdx = ? and type = 'V' and createdAt = (select max(createdAt) from Photo where type = 'V')) as VPhotoUrl,\n" +
+                "       (select photoUrl from Photo where userIdx = ? and type = 'BA' and createdAt = (select max(createdAt) from Photo where type = 'BA')) as BAPhotoUrl,\n" +
+                "       (select photoUrl from Photo where userIdx = ? and type = 'D' and createdAt = (select max(createdAt) from Photo where type = 'D')) as DPhotoUrl,\n" +
+                "       (select photoUrl from Photo where userIdx = ? and type = 'F' and createdAt = (select max(createdAt) from Photo where type = 'F')) as FPhotoUrl\n" +
+                "from User where userIdx = ?";
+        Object[] params = new Object[]{userIdx, userIdx, userIdx, userIdx, userIdx, userIdx, userIdx, userIdx, userIdx, userIdx, userIdx, userIdx, userIdx, userIdx};
+        return jdbcTemplate.queryForObject(query,
+                (rs, rowNum) -> new GetMyDetailRes(
+                        rs.getString("profileImageUrl"),
+                        rs.getString("nickname"),
+                        rs.getInt("followingCount"),
+                        rs.getInt("followerCount"),
+                        rs.getInt("likeCount"),
+                        rs.getInt("orderCount"),
+                        rs.getInt("photoTotalCount"),
+                        rs.getString("LPhotoUrl"),
+                        rs.getString("BPhotoUrl"),
+                        rs.getString("KPhotoUrl"),
+                        rs.getString("LIPhotoUrl"),
+                        rs.getString("VPhotoUrl"),
+                        rs.getString("BAPhotoUrl"),
+                        rs.getString("DPhotoUrl"),
+                        rs.getString("FPhotoUrl")),
+                params);
     }
 }

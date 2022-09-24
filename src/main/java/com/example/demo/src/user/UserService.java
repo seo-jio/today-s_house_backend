@@ -97,13 +97,4 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
-    public GetMyDetailRes getMyDetail(Long userIdx) throws BaseException{
-        try{
-            GetMyDetailRes getMyDetailRes = new GetMyDetailRes();
-            return getMyDetailRes;
-        }catch(Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
 }
