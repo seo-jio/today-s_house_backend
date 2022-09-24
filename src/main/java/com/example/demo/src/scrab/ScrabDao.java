@@ -1,6 +1,8 @@
 package com.example.demo.src.scrab;
 
+import com.example.demo.src.scrab.model.ScrabBanner;
 import com.example.demo.src.scrab.model.ScrabItem;
+import com.example.demo.src.scrab.model.ScrabProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -65,15 +67,43 @@ public class ScrabDao {
         jdbcTemplate.update(query, params);
     }
 
-    public List<ScrabItem> getScrabItemProductsFilter(Long userIdx) {
-        String getQuery = "select s.productId, s.createdAt ,(select p.productPhotoUrl from ProductPhoto p where p.productId = p.productId and p.sequenceNo = 0) as imageUrl\n" +
-                "                from Product pr, Scrab s where pr.productId = s.productId and s.userIdx = ? and s.status = 'T' order by s.createdAt desc;";
-        Object[] params = {userIdx};
-        return jdbcTemplate.query(getQuery, (rs, rowNum) -> new ScrabItem(
-                "Product",
-                rs.getLong("productId"),
-                rs.getString("imageUrl"),
-                rs.getTimestamp("createdAt").toLocalDateTime()
-        ), params);
+    public List<ScrabProduct> getScrabProductTab(Long userIdx) {
+        String query = "select *, (select p.productPhotoUrl from ProductPhoto p where p.productId = Product.productId and p.sequenceNo = 0) as thumbnailUrl,\n" +
+                "                (select avg(score) from ProductReview r where r.productId = Product.productId) as totalScore,\n" +
+                "                (select count(*) from ProductReview r where r.productId = Product.productId) as numReviews,\n" +
+                "                (select brandName from Seller s where s.sellerId = Product.sellerId) as brandName\n" +
+                "                from Product join Scrab s on s.productId = Product.productId and s.userIdx = ? and s.status = 'T' order by s.createdAt desc";
+        Object[] params = new Object[]{userIdx};
+        return jdbcTemplate.query(query,
+                (rs, rowNum) -> new ScrabProduct(
+                        rs.getLong("Product.productId"),
+                        rs.getString("thumbnailUrl"),
+                        rs.getString("productName"),
+                        rs.getInt("originalPrice"),
+                        rs.getInt("discountedPrice"),
+                        rs.getInt("totalScore"),
+                        rs.getInt("numReviews"),
+                        rs.getString("brandName")),
+                params);
+    }
+
+    public List<ScrabProduct> getScrabProductTabFilter(Long userIdx, Long categoryId) {
+        String query = "select *, (select p.productPhotoUrl from ProductPhoto p where p.productId = Product.productId and p.sequenceNo = 0) as thumbnailUrl,\n" +
+                "                (select avg(score) from ProductReview r where r.productId = Product.productId) as totalScore,\n" +
+                "                (select count(*) from ProductReview r where r.productId = Product.productId) as numReviews,\n" +
+                "                (select brandName from Seller s where s.sellerId = Product.sellerId) as brandName\n" +
+                "                from Product join Scrab s on s.productId = Product.productId and s.userIdx = ? and Product.category1 = ? and s.status = 'T' order by s.createdAt desc";
+        Object[] params = new Object[]{userIdx, categoryId};
+        return jdbcTemplate.query(query,
+                (rs, rowNum) -> new ScrabProduct(
+                        rs.getLong("Product.productId"),
+                        rs.getString("thumbnailUrl"),
+                        rs.getString("productName"),
+                        rs.getInt("originalPrice"),
+                        rs.getInt("discountedPrice"),
+                        rs.getInt("totalScore"),
+                        rs.getInt("numReviews"),
+                        rs.getString("brandName")),
+                params);
     }
 }

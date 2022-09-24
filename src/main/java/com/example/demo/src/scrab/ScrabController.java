@@ -2,7 +2,7 @@ package com.example.demo.src.scrab;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.scrab.model.ScrabItem;
+import com.example.demo.src.scrab.model.*;
 import com.example.demo.src.user.model.GetUserRes;
 import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -23,43 +23,68 @@ public class ScrabController {
 
     @ResponseBody
     @GetMapping("/{userIdx}/scrabs")
-    public BaseResponse<List<ScrabItem>> getScrabItems(@PathVariable Long userIdx, @RequestParam() String filter){
+    public BaseResponse<ScrabItemWrapper> getScrabItems(@PathVariable Long userIdx){
         try {
             Long userIdxFindByJwt = jwtService.getUserIdx();
             if(userIdxFindByJwt != userIdx){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            // 문자열 비교 시 '=='을 사용하면 주소 값을 비교하기 떄문에 .equlas()를 사용하자!!
-            if (filter.equals("All")){  //모두 보기
-                List<ScrabItem> joinedScrabItems = scrabService.getScrabItems(userIdx);
-                return new BaseResponse<>(joinedScrabItems);
-            }
-            else if(filter.equals("Product")){ //상품 보기
-                List<ScrabItem> scrabItems = scrabService.getScrabProducts(userIdx);
-                return new BaseResponse<>(scrabItems);
-            }
-            else if(filter.equals("Photo")){  //사진 보기
-                List<ScrabItem> scrabItems = scrabService.getScrabPhotos(userIdx);
-                return new BaseResponse<>(scrabItems);
-            }
-            else{
-                return new BaseResponse<>(SCRAB_TYPE_INVALID);
-            }
+            List<ScrabItem> joinedScrabItems = scrabService.getScrabItems(userIdx);
+            ScrabBanner scrabBanner = scrabService.getScrabBanner(userIdx);
+            ScrabItemWrapper scrabItemWrapper = new ScrabItemWrapper(scrabBanner, joinedScrabItems);
+            return new BaseResponse<>(scrabItemWrapper);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
 
     @ResponseBody
-    @GetMapping("/{userIdx}/scrabs/productFilter")
-    public BaseResponse<List<ScrabItem>> getScrabProdcutFilter(@PathVariable Long userIdx, @RequestParam() String filter){
+    @GetMapping("/{userIdx}/scrabs/photo")
+    public BaseResponse<ScrabItemWrapper> getScrabPhoto(@PathVariable Long userIdx){
         try {
             Long userIdxFindByJwt = jwtService.getUserIdx();
             if(userIdxFindByJwt != userIdx){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            List<ScrabItem> scrabItems = scrabService.getScrabProductsFilter(userIdx);
-            return new BaseResponse<>(scrabItems);
+            List<ScrabItem> scrabItems = scrabService.getScrabPhotos(userIdx);
+            ScrabBanner scrabBanner = scrabService.getScrabBanner(userIdx);
+            ScrabItemWrapper scrabItemWrapper = new ScrabItemWrapper(scrabBanner, scrabItems);
+            return new BaseResponse<>(scrabItemWrapper);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/{userIdx}/scrabs/product")
+    public BaseResponse<ScrabProductWrapper> getScrabProductTab(@PathVariable Long userIdx){
+        try {
+            Long userIdxFindByJwt = jwtService.getUserIdx();
+            if(userIdxFindByJwt != userIdx){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<ScrabProduct> scrabProducts = scrabService.getScrabProductTab(userIdx);
+            ScrabBanner scrabBanner = scrabService.getScrabBanner(userIdx);
+            ScrabProductWrapper scrabProductWrapper = new ScrabProductWrapper(scrabBanner, scrabProducts);
+            return new BaseResponse<>(scrabProductWrapper);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+    @ResponseBody
+    @GetMapping("/{userIdx}/scrabs/productCategory")
+    public BaseResponse<ScrabProductWrapper> getScrabProductTabFilter(@PathVariable Long userIdx, @RequestParam Long categoryId){
+        try {
+            Long userIdxFindByJwt = jwtService.getUserIdx();
+            if(userIdxFindByJwt != userIdx){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<ScrabProduct> scrabProducts = scrabService.getScrabProductTabFilter(userIdx, categoryId);
+            ScrabBanner scrabBanner = scrabService.getScrabBanner(userIdx);
+            ScrabProductWrapper scrabProductWrapper = new ScrabProductWrapper(scrabBanner, scrabProducts);
+            return new BaseResponse<>(scrabProductWrapper);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
