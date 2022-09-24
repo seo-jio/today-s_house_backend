@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetMyDetailRes {
+public class GetMyProfileRes {
     private String profileImageUrl;
     private String nickname;
     private int followerCount;
@@ -28,7 +28,7 @@ public class GetMyDetailRes {
     private int scrabItemCount;
     private List<String> scrabItemImageUrls;
 
-    public GetMyDetailRes(String profileImageUrl, String nickname, int followerCount, int followingCount, int likeCount, int orderCount, int photoCount, String LPhotoUrl, String BPhotoUrl, String KPhotoUrl, String LIPhotoUrl, String VPhotoUrl, String BAPhotoUrl, String DPhotoUrl, String FPhotoUrl) {
+    public GetMyProfileRes(String profileImageUrl, String nickname, int followerCount, int followingCount, int likeCount, int orderCount, int photoCount, String LPhotoUrl, String BPhotoUrl, String KPhotoUrl, String LIPhotoUrl, String VPhotoUrl, String BAPhotoUrl, String DPhotoUrl, String FPhotoUrl) {
         this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;
         this.followerCount = followerCount;

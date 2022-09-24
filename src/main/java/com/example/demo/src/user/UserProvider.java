@@ -10,7 +10,6 @@ import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -129,18 +128,34 @@ public class UserProvider {
         }
     }
 
-    public GetMyDetailRes getMyDetail(Long userIdx) throws BaseException{
+    public GetMyProfileRes getMyprofile(Long userIdx) throws BaseException{
         try{
-            GetMyDetailRes getMyDetailRes = userDao.getMyDetail(userIdx);
-            System.out.println("성공했드아");
+            GetMyProfileRes getMyProfileRes = userDao.getMyprofile(userIdx);
             List<ScrabItem> scrabItems = scrabService.getScrabItems(userIdx);
-            getMyDetailRes.setScrabItemCount(scrabItems.size()); //scrab item 총 개수 세팅
+            getMyProfileRes.setScrabItemCount(scrabItems.size()); //scrab item 총 개수 세팅
             List<String> scrabItemImageUrls = new ArrayList<>();
             for (ScrabItem scrabItem : scrabItems) {
                 scrabItemImageUrls.add(scrabItem.getImageUrl());
             }
-            getMyDetailRes.setScrabItemImageUrls(scrabItemImageUrls);  //scrab item 이미지 url 세팅
-            return getMyDetailRes;
+            getMyProfileRes.setScrabItemImageUrls(scrabItemImageUrls);  //scrab item 이미지 url 세팅
+            return getMyProfileRes;
+        }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetOtherProfileRes getOtherprofile(Long userIdx) throws BaseException{
+        try{
+            GetOtherProfileRes getOtherProfileRes = userDao.getOtherProfile(userIdx);
+            List<ScrabItem> scrabItems = scrabService.getScrabItems(userIdx);
+            getOtherProfileRes.setScrabItemCount(scrabItems.size()); //scrab item 총 개수 세팅
+            List<String> scrabItemImageUrls = new ArrayList<>();
+            for (ScrabItem scrabItem : scrabItems) {
+                scrabItemImageUrls.add(scrabItem.getImageUrl());
+            }
+            getOtherProfileRes.setScrabItemImageUrls(scrabItemImageUrls);  //scrab item 이미지 url 세팅
+            return getOtherProfileRes;
         }catch(Exception exception){
             System.out.println("exception.getMessage() = " + exception.getMessage());
             throw new BaseException(DATABASE_ERROR);

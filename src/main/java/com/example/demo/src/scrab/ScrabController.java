@@ -51,6 +51,23 @@ public class ScrabController {
     }
 
     @ResponseBody
+    @GetMapping("/{userIdx}/scrabs/productFilter")
+    public BaseResponse<List<ScrabItem>> getScrabProdcutFilter(@PathVariable Long userIdx, @RequestParam() String filter){
+        try {
+            Long userIdxFindByJwt = jwtService.getUserIdx();
+            if(userIdxFindByJwt != userIdx){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<ScrabItem> scrabItems = scrabService.getScrabProductsFilter(userIdx);
+            return new BaseResponse<>(scrabItems);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+
+    @ResponseBody
     @PostMapping("/{userIdx}/scrabs/product/{productId}")
     public BaseResponse<?> scrabProduct(@PathVariable Long userIdx, @PathVariable Long productId){
         try{

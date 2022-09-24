@@ -64,4 +64,16 @@ public class ScrabDao {
         Object[] params = new Object[]{userIdx, photoId};
         jdbcTemplate.update(query, params);
     }
+
+    public List<ScrabItem> getScrabItemProductsFilter(Long userIdx) {
+        String getQuery = "select s.productId, s.createdAt ,(select p.productPhotoUrl from ProductPhoto p where p.productId = p.productId and p.sequenceNo = 0) as imageUrl\n" +
+                "                from Product pr, Scrab s where pr.productId = s.productId and s.userIdx = ? and s.status = 'T' order by s.createdAt desc;";
+        Object[] params = {userIdx};
+        return jdbcTemplate.query(getQuery, (rs, rowNum) -> new ScrabItem(
+                "Product",
+                rs.getLong("productId"),
+                rs.getString("imageUrl"),
+                rs.getTimestamp("createdAt").toLocalDateTime()
+        ), params);
+    }
 }

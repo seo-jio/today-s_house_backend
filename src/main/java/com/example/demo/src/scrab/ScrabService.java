@@ -84,4 +84,14 @@ public class ScrabService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public List<ScrabItem> getScrabProductsFilter(Long userIdx) throws BaseException{
+        try{
+            List<ScrabItem> scrabItems = scrabDao.getScrabItemProductsFilter(userIdx);
+            return scrabItems;
+        }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

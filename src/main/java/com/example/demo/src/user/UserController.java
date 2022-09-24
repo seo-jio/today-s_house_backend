@@ -237,15 +237,26 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping("/mydetail/{userIdx}")
-    public BaseResponse<GetMyDetailRes> getMyDetail(@PathVariable Long userIdx){
+    @GetMapping("/myProfile/{userIdx}")
+    public BaseResponse<GetMyProfileRes> getMyDetail(@PathVariable Long userIdx){
         try{
             Long userIdxByJwt = jwtService.getUserIdx();
             if(userIdx != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            GetMyDetailRes getMyDetailRes = userProvider.getMyDetail(userIdx);
-            return new BaseResponse<>(getMyDetailRes);
+            GetMyProfileRes getMyProfileRes = userProvider.getMyprofile(userIdx);
+            return new BaseResponse<>(getMyProfileRes);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/otherProfile/{userIdx}")
+    public BaseResponse<GetOtherProfileRes> getProfile(@PathVariable Long userIdx){
+        try{
+            GetOtherProfileRes getOtherProfileRes = userProvider.getOtherprofile(userIdx);
+            return new BaseResponse<>(getOtherProfileRes);
         }catch(BaseException baseException){
             return new BaseResponse<>(baseException.getStatus());
         }
