@@ -151,19 +151,6 @@ public class UserDao {
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 
-    public GetUserRes getUser2(Long userIdx) {
-        String getUserQuery = "select * from User where userIdx = ?"; // 해당 userIdx를 만족하는 유저를 조회하는 쿼리문
-        Long getUserParams = userIdx;
-        return this.jdbcTemplate.queryForObject(getUserQuery,
-                (rs, rowNum) -> new GetUserRes(
-                        rs.getLong("userIdx"),
-                        rs.getString("nickname"),
-                        rs.getString("Email"),
-                        rs.getString("password"),
-                        rs.getString("status")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
-                getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
-    }
-
     public void follow(Long userIdx, Long followingId) {
         String followQuery = "insert into Follow(userIdx, followingId) values (?, ?)";
         Object[] createUserParams = new Object[]{userIdx, followingId};
@@ -244,5 +231,48 @@ public class UserDao {
                         rs.getString("DPhotoUrl"),
                         rs.getString("FPhotoUrl")),
                 params);
+    }
+
+    public void setDefaultAddresss(Long buyerId, Long addressId) {
+        String query = "update User set addressId = ? where userIdx = ?";
+        Object[] params = new Object[]{buyerId, addressId};
+        jdbcTemplate.update(query, params);
+    }
+
+    public List<GetFollowRes> getFollowings(Long userIdx) {
+        String query = "select u.userIdx, u.profileImageUrl, u.nickname\n" +
+                "from User u join (select f.followingId from Follow f join User u on f.userIdx = u.userIdx and u.userIdx = ?) as temp on u.userIdx = temp.followingId";
+        Object[] params = new Object[]{userIdx};
+        return jdbcTemplate.query(query,
+                (rs, rowNum) -> new GetFollowRes(
+                        rs.getLong("userIdx"),
+                        rs.getString("profileImageUrl"),
+                        rs.getString("nickname")),
+                params);
+    }
+
+    public List<GetFollowRes> getFollowers(Long userIdx) {
+        String query = "select u.userIdx, u.profileImageUrl, u.nickname\n" +
+                "from User u join (select f.userIdx from Follow f join User u on f.followingId = u.userIdx and u.userIdx = ?) as temp on u.userIdx = temp.userIdx";
+        Object[] params = new Object[]{userIdx};
+        return jdbcTemplate.query(query,
+                (rs, rowNum) -> new GetFollowRes(
+                        rs.getLong("userIdx"),
+                        rs.getString("profileImageUrl"),
+                        rs.getString("nickname")),
+                params);
+    }
+
+    public GetUserRes getUserByEmail(String email) {
+        String getUserQuery = "select * from User where email = ?"; // 해당 userIdx를 만족하는 유저를 조회하는 쿼리문
+        String getUserParams = email;
+        return this.jdbcTemplate.queryForObject(getUserQuery,
+                (rs, rowNum) -> new GetUserRes(
+                        rs.getLong("userIdx"),
+                        rs.getString("nickname"),
+                        rs.getString("Email"),
+                        rs.getString("password"),
+                        rs.getString("status")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                getUserParams);
     }
 }

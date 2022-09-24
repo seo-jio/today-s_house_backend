@@ -96,4 +96,12 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void setDefaultAddress(Long buyerId, Long addressId) throws BaseException{
+        try{
+            userDao.setDefaultAddresss(buyerId, addressId);
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
