@@ -103,8 +103,7 @@ public class UserController {
             return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
         }
         try {
-            Long userIdxFindByJwt = jwtService.getUserIdx();
-            GetUserRes getUserRes = userProvider.getUser(userIdxFindByJwt);
+            GetUserRes getUserRes = userProvider.getUserByEmail(postLoginReq.getEmail());
             if (getUserRes.getStatus() == "N"){
                 return new BaseResponse<>(POST_USERS_DELETED_USER);
             }
@@ -222,7 +221,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @PatchMapping("/{userIdx}/follow/{followingId}")
+    @DeleteMapping("/{userIdx}/unfollow/{followingId}")
     public BaseResponse<?> unfollow(@PathVariable Long userIdx, @PathVariable Long followingId){
         try{
             Long userIdxByJwt = jwtService.getUserIdx();
@@ -257,6 +256,37 @@ public class UserController {
         try{
             GetOtherProfileRes getOtherProfileRes = userProvider.getOtherprofile(userIdx);
             return new BaseResponse<>(getOtherProfileRes);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
+
+
+    @ResponseBody
+    @GetMapping("/{userIdx}/followings")
+    public BaseResponse<List<GetFollowRes>> getFollowings(@PathVariable Long userIdx){
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<GetFollowRes> getFollowResList = userProvider.getFollowings(userIdx);
+            return new BaseResponse<>(getFollowResList);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/{userIdx}/followers")
+    public BaseResponse<List<GetFollowRes>> getFollowers(@PathVariable Long userIdx){
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<GetFollowRes> getFollowResList = userProvider.getFollowers(userIdx);
+            return new BaseResponse<>(getFollowResList);
         }catch(BaseException baseException){
             return new BaseResponse<>(baseException.getStatus());
         }

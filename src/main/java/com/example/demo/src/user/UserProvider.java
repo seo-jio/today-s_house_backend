@@ -161,4 +161,31 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public List<GetFollowRes> getFollowings(Long userIdx) throws BaseException{
+        try {
+            List<GetFollowRes> getFollowRes = userDao.getFollowings(userIdx);
+            return getFollowRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetFollowRes> getFollowers(Long userIdx) throws BaseException{
+        try {
+            List<GetFollowRes> getFollowRes = userDao.getFollowers(userIdx);
+            return getFollowRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetUserRes getUserByEmail(String email) throws BaseException{
+        try {
+            GetUserRes getUserRes = userDao.getUserByEmail(email);
+            return getUserRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
