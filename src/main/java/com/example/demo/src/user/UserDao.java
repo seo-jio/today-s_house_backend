@@ -275,4 +275,64 @@ public class UserDao {
                         rs.getString("status")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getUserParams);
     }
+
+    public void editProfile(Long userIdx, PatchEditProfileReq patchEditProfileReq) {
+        String query = "update User set profileImageUrl = ?, nickname = ?, profileText = ?, snsUrl = ? where userIdx = ?";
+        Object[] params = new Object[]{patchEditProfileReq.getProfileImageUrl(), patchEditProfileReq.getNickname(),
+                                        patchEditProfileReq.getProfileText(), patchEditProfileReq.getSnsUrl(), userIdx};
+        jdbcTemplate.update(query, params);
+    }
+
+    public void editNotificationEmail(Long userIdx, String isAgreed) {
+        String query;
+        Object[] params = new Object[]{userIdx};
+        if (isAgreed.equals("F")){
+            query = "update User set isEmail = 'T' where userIdx = ?";
+        }
+        else{
+            query = "update User set isEmail = 'F' where userIdx = ?";
+        }
+        jdbcTemplate.update(query, params);
+    }
+
+    public void editNotificationSms(Long userIdx, String isAgreed) {
+        String query;
+        Object[] params = new Object[]{userIdx};
+        if (isAgreed.equals("F")){
+            query = "update User set isSms = 'T' where userIdx = ?";
+        }
+        else{
+            query = "update User set isSms = 'F' where userIdx = ?";
+        }
+        jdbcTemplate.update(query, params);
+    }
+
+    public void editNotificationApp(Long userIdx, String isAgreed) {
+        String query;
+        Object[] params = new Object[]{userIdx};
+        if (isAgreed.equals("F")){
+            query = "update User set isApp = 'T' where userIdx = ?";
+        }
+        else{
+            query = "update User set isApp = 'F' where userIdx = ?";
+        }
+        jdbcTemplate.update(query, params);
+    }
+
+    public GetNotificationIsAgreed getNotificationIsAgreed(Long userIdx) {
+        String query = "select isSms, isEmail, isApp from User where userIdx = ?";
+        Object[] params = new Object[]{userIdx};
+        return jdbcTemplate.queryForObject(query,
+                (rs, rowNum) -> new GetNotificationIsAgreed(
+                        rs.getString("isSms"),
+                        rs.getString("isEmail"),
+                        rs.getString("isApp")
+                ), params);
+    }
+
+    public void editPassword(Long userIdx, PatchEditPassword patchEditPassword) {
+        String query = "update User set password = ? where userIdx = ?";
+        Object[] params = new Object[]{patchEditPassword.getPassword(), userIdx};
+        jdbcTemplate.update(query, params);
+    }
 }

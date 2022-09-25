@@ -3,9 +3,7 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
-import com.example.demo.src.user.model.PatchUserReq;
-import com.example.demo.src.user.model.PostUserReq;
-import com.example.demo.src.user.model.PostUserRes;
+import com.example.demo.src.user.model.*;
 import com.example.demo.utils.AES128;
 import com.example.demo.utils.JwtService;
 import lombok.extern.slf4j.Slf4j;
@@ -100,6 +98,49 @@ public class UserService {
     public void setDefaultAddress(Long buyerId, Long addressId) throws BaseException{
         try{
             userDao.setDefaultAddresss(buyerId, addressId);
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void editProfile(Long userIdx, PatchEditProfileReq patchEditProfileReq) throws BaseException{
+        try{
+            userDao.editProfile(userIdx, patchEditProfileReq);
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void editNotificationEmail(Long userIdx) throws BaseException{
+        try{
+            GetNotificationIsAgreed isAgreed = userDao.getNotificationIsAgreed(userIdx);
+            userDao.editNotificationEmail(userIdx, isAgreed.getIsEmail());
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void editNotificationSms(Long userIdx) throws BaseException{
+        try{
+            GetNotificationIsAgreed isAgreed = userDao.getNotificationIsAgreed(userIdx);
+            userDao.editNotificationSms(userIdx, isAgreed.getIsSms());
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void editNotificationApp(Long userIdx) throws BaseException{
+        try{
+            GetNotificationIsAgreed isAgreed = userDao.getNotificationIsAgreed(userIdx);
+            userDao.editNotificationApp(userIdx, isAgreed.getIsApp());
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void editPassword(Long userIdx, PatchEditPassword patchEditPassword) throws BaseException{
+        try{
+            userDao.editPassword(userIdx, patchEditPassword);
         }catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }

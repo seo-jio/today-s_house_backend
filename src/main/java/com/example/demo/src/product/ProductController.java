@@ -23,11 +23,6 @@ public class ProductController {
     private final SellerService sellerService;
     private final CategoryService categoryService;
 
-    @GetMapping("getmodel")
-    BaseResponse<?> getModel(){
-        return new BaseResponse<>(new PostProductReq());
-    }
-
     @GetMapping("")
     BaseResponse<?> getProductMain(){
         return new BaseResponse<>(productProvider.getMainProducts());
@@ -95,15 +90,15 @@ public class ProductController {
         GetUserRes user = null;
         //TODO : 유저 존재 여부 관련 함수 만들고, 이후에 유저 정보 가져와서 스크랩 여부 확인.
 
-//        try {
-//            if (userIdx != null && userProvider.getUser(userIdx) == null) {
-//                return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
-//            }
-//            user = userProvider.getUser(userIdx);
-//        }
-//        catch(BaseException e){
-//            return new BaseResponse<>(e.getStatus());
-//        }
+        //        try {
+        //            if (userIdx != null && userProvider.getUser(userIdx) == null) {
+        //                return new BaseResponse<>(BaseResponseStatus.USER_NOT_FOUND);
+        //            }
+        //            user = userProvider.getUser(userIdx);
+        //        }
+        //        catch(BaseException e){
+        //            return new BaseResponse<>(e.getStatus());
+        //        }
         return new BaseResponse<>(productProvider.findByCategoryId(categoryId, orderBy, filter, user));
     }
 

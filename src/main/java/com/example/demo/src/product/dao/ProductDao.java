@@ -91,7 +91,7 @@ public class ProductDao {
     }
 
     public Boolean isProductIdExist(Long productId){
-        String getQuery = "select count(*) from product where productId = ?";
+        String getQuery = "select count(*) from Product where productId = ?";
         Object[] params = {productId};
         return jdbcTemplate.queryForObject(getQuery,Integer.class, params) == 1;
     }
