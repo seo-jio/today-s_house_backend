@@ -34,6 +34,7 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_NICKNAME(false, 2019, "사용하실 이름을 입력해주세요."),
     POST_USERS_DELETED_USER(false, 2021, "탈퇴한 회원입니다."),
     POST_USERS_SLEEPER_ACCOUNT(false, 2022, "휴먼 계정입니다."),
+    PATCH_USERS_SHORT_PASSWORD(false, 2022, "입력하신 비밀번호가 너무 짧습니다."),
 
     // Product 2100번 부터 시작
 

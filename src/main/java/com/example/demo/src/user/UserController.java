@@ -356,7 +356,7 @@ public class UserController {
     @PatchMapping("/{userIdx}/edit/password")
     public BaseResponse<?> editPassword(@PathVariable Long userIdx, @RequestBody PatchEditPassword patchEditPassword){
         if (patchEditPassword.getPassword().length() < 8){
-            return new BaseResponse<>(SUCCESS);  //수정 필요
+            return new BaseResponse<>(PATCH_USERS_SHORT_PASSWORD);  //수정 필요
         }
         try{
             Long userIdxByJwt = jwtService.getUserIdx();
