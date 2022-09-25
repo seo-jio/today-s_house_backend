@@ -20,7 +20,7 @@ public class PostOrderReq {
     String receiverPhoneNumber;
 
     String addressName;
-    Long postalCode;
+    String postalCode;
     String address1;
     String address2;
     String request;

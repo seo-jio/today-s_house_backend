@@ -1,13 +1,14 @@
 package com.example.demo.src.orders.dao;
 
-import com.example.demo.src.orders.model.GetOrderDetailsRes;
 import com.example.demo.src.orders.model.OrderDetail;
+import com.example.demo.src.orders.model.OrderThumbnail;
 import com.example.demo.src.orders.model.PostOrderReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class OrderDao {
@@ -44,7 +45,7 @@ public class OrderDao {
     }
 
     public OrderDetail findOrderById(Long orderId) {
-        String getQuery = "Select * " +
+        String getQuery = "Select * , (select productPhotoUrl from ProductPhoto where ProductPhoto.productId = o.productId and sequenceNo = 0) as productPhotoUrl " +
                 "from Orders o " +
                 "inner join Product P on o.productId = P.productId " +
                 "inner join ProductOption PO on o.productOptionId = PO.productOptionId " +
@@ -65,6 +66,7 @@ public class OrderDao {
                 rs.getString(9),
                 rs.getTimestamp(10).toLocalDateTime(),
                 rs.getString("P.productName"),
+                rs.getString("productPhotoUrl"),
                 rs.getString("PO.optionName"),
                 rs.getString("U.name"),
                 rs.getString("U.email"),
@@ -79,7 +81,35 @@ public class OrderDao {
 
     }
 
-    public GetOrderDetailsRes findOrderByBuyerIdx(Long userIdx) {
-        return null;
+    public List<OrderThumbnail> findOrderByBuyerIdx(Long userIdx) {
+        String getQuery = "select orderId, createdAt, deliveryStatus, " +
+                "(select productName from Product where Product.productId = Orders.productId) as productName, " +
+                "(select productPhotoUrl from ProductPhoto where ProductPhoto.productId = Orders.productId and sequenceNo = 0) as productPhotoUrl " +
+                "from Orders where buyerIdx = ?";
+        Object[] params = {userIdx};
+        return jdbcTemplate.query(getQuery, ((rs, rowNum) -> new OrderThumbnail(
+                rs.getLong("orderId"),
+                rs.getTimestamp("createdAt").toLocalDateTime(),
+                rs.getInt("deliveryStatus"),
+                rs.getString("productName"),
+                rs.getString("productPhotoUrl")
+        )), params);
+    }
+
+    public Integer updateOrderStatus(Long orderId, Integer deliveryStatusCode) {
+        String updateQuery = "update Orders set deliveryStatus = ? where orderId = ?";
+        Object[] params = {orderId, deliveryStatusCode};
+        return jdbcTemplate.update(updateQuery, params);
+    }
+
+    public Integer updateOrderAddress(Long orderId, Long addressId){
+        String updateQuery = "update Orders set addressId = ? where orderId = ?";
+        Object[] params = {orderId, addressId};
+        return jdbcTemplate.update(updateQuery, params);
+    }
+
+    public Long getBuyerIdByOrderId(Long orderId){
+        String getQuery = "select buyerIdx from Orders where orderId = " + orderId.toString();
+        return jdbcTemplate.queryForObject(getQuery, Long.class);
     }
 }

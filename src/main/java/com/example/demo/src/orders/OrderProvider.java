@@ -1,11 +1,13 @@
 package com.example.demo.src.orders;
 
-import com.example.demo.config.BaseResponse;
 import com.example.demo.src.orders.dao.OrderDao;
-import com.example.demo.src.orders.model.GetOrderDetailsRes;
+import com.example.demo.src.orders.model.GetOrderThumbnailsRes;
 import com.example.demo.src.orders.model.OrderDetail;
+import com.example.demo.src.orders.model.OrderThumbnail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository @RequiredArgsConstructor
 public class OrderProvider {
@@ -19,8 +21,12 @@ public class OrderProvider {
         return orderDao.findOrderById(orderId);
     }
 
-    public GetOrderDetailsRes findOrdersByBuyerIdx(Long userIdx) {
-        return orderDao.findOrderByBuyerIdx(userIdx);
+    public GetOrderThumbnailsRes findOrdersByBuyerIdx(Long userIdx) {
+        List<OrderThumbnail> orderThumbnails = orderDao.findOrderByBuyerIdx(userIdx);
+        return new GetOrderThumbnailsRes(orderThumbnails);
+    }
 
+    public long getBuyerIdxByOrderId(Long orderId){
+        return orderDao.getBuyerIdByOrderId(orderId);
     }
 }

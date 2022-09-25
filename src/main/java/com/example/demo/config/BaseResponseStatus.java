@@ -65,6 +65,7 @@ public enum BaseResponseStatus {
 
     // Orders 3200번 부터 시작
     ORDER_NOT_FOUND(false, 3200, "존재하지 않는 주문 번호 입니다."),
+    WRONG_DELIVERY_CODE(false, 3201, "올바른 주문 상태코드를 입력해 부세요. 0~5"),
 
 
     // Reviews 3300번 부터 시작

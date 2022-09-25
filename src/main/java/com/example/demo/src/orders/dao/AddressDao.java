@@ -18,7 +18,7 @@ public class AddressDao {
     }
 
     @Transactional
-    public Long createAddress(String addressName, Long postalCode, String address1, String address2, String receiverName, String receiverPhoneNumber) {
+    public Long createAddress(String addressName, String postalCode, String address1, String address2, String receiverName, String receiverPhoneNumber) {
         String createQuery = "Insert into Address(addressName, postalCode, address1, address2, receiverName, receiverPhoneNumber) values(?, ?, ?, ?, ?, ?)";
         Object[] params = {addressName, postalCode, address1, address2, receiverName, receiverPhoneNumber};
         jdbcTemplate.update(createQuery, params);
