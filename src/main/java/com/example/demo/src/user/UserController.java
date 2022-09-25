@@ -291,4 +291,82 @@ public class UserController {
             return new BaseResponse<>(baseException.getStatus());
         }
     }
+
+    @ResponseBody
+    @PatchMapping("/{userIdx}/edit/profile")
+    public BaseResponse<?> editProfile(@PathVariable Long userIdx, @RequestBody PatchEditProfileReq patchEditProfileReq){
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.editProfile(userIdx, patchEditProfileReq);
+            return new BaseResponse<>(SUCCESS);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/{userIdx}/edit/notification/email")
+    public BaseResponse<?> editNotificationEmail(@PathVariable Long userIdx){
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.editNotificationEmail(userIdx);
+            return new BaseResponse<>(SUCCESS);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/{userIdx}/edit/notification/sms")
+    public BaseResponse<?> editNotificationSms(@PathVariable Long userIdx){
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.editNotificationSms(userIdx);
+            return new BaseResponse<>(SUCCESS);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/{userIdx}/edit/notification/app")
+    public BaseResponse<?> editNotificationApp(@PathVariable Long userIdx){
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.editNotificationApp(userIdx);
+            return new BaseResponse<>(SUCCESS);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/{userIdx}/edit/password")
+    public BaseResponse<?> editPassword(@PathVariable Long userIdx, @RequestBody PatchEditPassword patchEditPassword){
+        if (patchEditPassword.getPassword().length() < 8){
+            return new BaseResponse<>(SUCCESS);  //수정 필요
+        }
+        try{
+            Long userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.editPassword(userIdx, patchEditPassword);
+            return new BaseResponse<>(SUCCESS);
+        }catch(BaseException baseException){
+            return new BaseResponse<>(baseException.getStatus());
+        }
+    }
 }
