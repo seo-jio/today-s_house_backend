@@ -335,4 +335,10 @@ public class UserDao {
         Object[] params = new Object[]{patchEditPassword.getPassword(), userIdx};
         jdbcTemplate.update(query, params);
     }
+
+    public Long getUserIdxByEmail(String email) {
+        String query = "select userIdx from User where email = ?";
+        Object[] params = new Object[]{email};
+        return jdbcTemplate.queryForObject(query, params, Long.class);
+    }
 }
