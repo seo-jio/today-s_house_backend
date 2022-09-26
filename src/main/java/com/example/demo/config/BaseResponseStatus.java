@@ -70,6 +70,7 @@ public enum BaseResponseStatus {
 
 
     // Reviews 3300번 부터 시작
+    POST_REVIEW_SCORE_INVALID(false, 3302, "Score는 0~5중 하나의 정수로 넣어주세요."),
 
     // Categories 3400번 부터 시작
     CATEGORY_NOT_FOUND(false, 3401, "존재하지 않는 카테고리 입니다." ),
@@ -81,6 +82,7 @@ public enum BaseResponseStatus {
 
     // Scrab 3600번 부터 시작
     SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
+    REVIEW_NOT_FOUND(false, 3601, "리뷰가 존재하지 않습니다."),
 
 
     /**
@@ -95,6 +97,7 @@ public enum BaseResponseStatus {
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+
 
 
 
