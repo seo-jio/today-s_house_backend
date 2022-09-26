@@ -21,7 +21,7 @@ public class OAuthController {
      */
     //카카오 로그인 화면 url : kauth.kakao.com/oauth/authorize?client_id=7ecea2fa6adb374c8b21c92c9447219d&redirect_uri=http://localhost:9000/oauth/kakao&response_type=code
     @ResponseBody
-    @PostMapping("/kakao")
+    @GetMapping("/kakao")
     public BaseResponse<PostUserOAuthRes> kakaoSingup(@RequestParam String code) {
         try{
             System.out.println("code = " + code);
