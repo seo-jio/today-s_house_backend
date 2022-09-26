@@ -44,7 +44,7 @@ public class ReviewController {
         return new BaseResponse<>(reviewId);
     }
 
-    @PatchMapping("/{reviewId}")
+    @PutMapping("/{reviewId}")
     BaseResponse<?> updateReview(@PathVariable Long reviewId, @RequestBody PostReviewReq req){
         Long userIdxByJwt = null;
         try {
