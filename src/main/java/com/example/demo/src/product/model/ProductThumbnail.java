@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter @Setter @AllArgsConstructor
 public class ProductThumbnail{
     Long productId;
@@ -17,4 +19,6 @@ public class ProductThumbnail{
     Float totalScore;
     Integer numReviews;
     String brandName;
+    Boolean isTodaysDeal;
+    LocalDateTime eventDeadline;
 }

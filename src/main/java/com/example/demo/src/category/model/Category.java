@@ -12,6 +12,7 @@ public class Category {
     Long parentCategoryId;
     String categoryName;
     Integer depth;
+    String categoryPhoto;
     Date createdAt;
     Date updatedAt;
     String status;
