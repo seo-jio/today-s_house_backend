@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -26,6 +27,7 @@ public class OAuthService{
     private final OAuthDao oAuthDao;
     private final JwtService jwtService;
 
+    @Transactional
     public String getKakaoAccessToken (String code) {
         String access_Token = "";
         String refresh_Token = "";
@@ -82,7 +84,7 @@ public class OAuthService{
         return access_Token;
     }
 
-
+    @Transactional
     public PostUserOAuthRes createKakaoUser(String token) throws BaseException {
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 
@@ -137,6 +139,7 @@ public class OAuthService{
         }
     }
 
+    @Transactional
     public PostUserOAuthRes createUserOAuth(PostUserOAuthReq postUserOAuthReq) throws BaseException {
         // 중복 확인: 해당 이메일을 가진 유저가 있는지 확인합니다. 중복될 경우, 에러 메시지를 보냅니다.
         if (userProvider.checkEmail(postUserOAuthReq.getEmail()) == 1) {
