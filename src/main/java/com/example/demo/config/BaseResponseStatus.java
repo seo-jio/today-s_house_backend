@@ -84,6 +84,10 @@ public enum BaseResponseStatus {
     SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
     REVIEW_NOT_FOUND(false, 3601, "리뷰가 존재하지 않습니다."),
 
+    // 핸드폰 번호 인증  3700부터
+    PHONENUMBER_ALREADY_AUTHENTICATED(false, 3701, "핸드폰가 이미 인증되었음" ),
+    PHONENUMBER_INVALID(false, 3702, "11자리의 숫자로 입력해 주세요." ),
+    PHONENUMBER_AUTH_FAILED(false, 3703, "잘못된 전화번호 이거나, 잘못된 코드입니다."),
 
     /**
      * 4000 : Database, Server 오류
@@ -97,7 +101,6 @@ public enum BaseResponseStatus {
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
-
 
 
 
