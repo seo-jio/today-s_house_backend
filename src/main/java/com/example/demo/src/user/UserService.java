@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -41,6 +42,7 @@ public class UserService {
     }
     // ******************************************************************************
     // 회원가입(POST)
+    @Transactional
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
         System.out.println("User service start");
         // 중복 확인: 해당 이메일을 가진 유저가 있는지 확인합니다. 중복될 경우, 에러 메시지를 보냅니다.
@@ -68,6 +70,7 @@ public class UserService {
     }
 
     // 회원정보 수정(Patch)
+    @Transactional
     public void modifyUserName(PatchUserReq patchUserReq) throws BaseException {
         try {
             int result = userDao.modifyUserName(patchUserReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
@@ -79,6 +82,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void follow(Long userIdx, Long followingId) throws BaseException{
         try{
             userDao.follow(userIdx, followingId);
@@ -87,6 +91,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void unfollow(Long userIdx, Long followingId) throws BaseException{
         try{
             userDao.unfollow(userIdx, followingId);
@@ -95,6 +100,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void setDefaultAddress(Long buyerId, Long addressId) throws BaseException{
         try{
             userDao.setDefaultAddresss(buyerId, addressId);
@@ -103,6 +109,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void editProfile(Long userIdx, PatchEditProfileReq patchEditProfileReq) throws BaseException{
         try{
             userDao.editProfile(userIdx, patchEditProfileReq);
@@ -111,6 +118,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void editNotificationEmail(Long userIdx) throws BaseException{
         try{
             GetNotificationIsAgreed isAgreed = userDao.getNotificationIsAgreed(userIdx);
@@ -120,6 +128,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void editNotificationSms(Long userIdx) throws BaseException{
         try{
             GetNotificationIsAgreed isAgreed = userDao.getNotificationIsAgreed(userIdx);
@@ -129,6 +138,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void editNotificationApp(Long userIdx) throws BaseException{
         try{
             GetNotificationIsAgreed isAgreed = userDao.getNotificationIsAgreed(userIdx);
@@ -138,6 +148,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void editPassword(Long userIdx, PatchEditPassword patchEditPassword) throws BaseException{
         try{
             userDao.editPassword(userIdx, patchEditPassword);

@@ -5,6 +5,7 @@ import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.photo.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ public class PhotoService {
     private final PhotoDao photoDao;
 
     //validation은 try catch문 밖에다가 해야한다.
+    @Transactional
     public PostPhotoRes createPhoto(PostPhotoReq postPhotoReq) throws BaseException{
         List<String> types = new ArrayList<>(Arrays.asList("L", "B", "K", "LI", "V", "BA", "D", "F"));
         long count = types.stream().filter(type -> postPhotoReq.getType().equals(type)).count();
@@ -34,6 +36,7 @@ public class PhotoService {
         }
     }
 
+    @Transactional
     public void deletePhoto(Long photoId) throws BaseException{
         try{
             photoDao.deletePhoto(photoId);
@@ -42,6 +45,7 @@ public class PhotoService {
         }
     }
 
+    @Transactional
     public void changeType(PatchPhotoTypeReq patchPhotoTypeReq) throws BaseException{
         try{
             List<String> types = new ArrayList<>(Arrays.asList("L", "B", "K", "LI", "V", "BA", "D", "F"));
@@ -57,6 +61,7 @@ public class PhotoService {
         }
     }
 
+    @Transactional
     public void changeText(PatchPhotoTextReq patchPhotoTextReq) throws BaseException{
         try{
             photoDao.changeText(patchPhotoTextReq);
@@ -65,6 +70,7 @@ public class PhotoService {
         }
     }
 
+    @Transactional
     public GetPhotoDetailRes getPhotoDetail(Long photoId) throws BaseException{
         try{
             return photoDao.getPhotoDetail(photoId);

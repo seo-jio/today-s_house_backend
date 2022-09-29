@@ -8,6 +8,7 @@ import com.example.demo.src.user.UserDao;
 import com.example.demo.src.user.model.GetUserRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public List<ScrabItem> getScrabPhotos(Long userIdx) throws BaseException{
         try{
             List<ScrabItem> scrabItems = scrabDao.getScrabItemPhotos(userIdx);
@@ -41,6 +43,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public void scrabProduct(Long userIdx, Long productId) throws BaseException{
         try{
             scrabDao.scrabProduct(userIdx, productId);
@@ -49,6 +52,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public void scrabCancelProduct(Long userIdx, Long productId) throws BaseException{
         try{
             scrabDao.scrabCancelProduct(userIdx, productId);
@@ -58,6 +62,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public void scrabPhoto(Long userIdx, Long photoId) throws BaseException{
         try{
             scrabDao.scrabPhoto(userIdx, photoId);
@@ -67,6 +72,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public void scrabCancelPhoto(Long userIdx, Long photoId) throws BaseException{
         try{
             scrabDao.scrabCancelPhoto(userIdx, photoId);
@@ -75,6 +81,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public List<ScrabItem> getScrabItems(Long userIdx) throws BaseException{
         try{
             List<ScrabItem> scrabItemsProduct = getScrabProducts(userIdx);
@@ -90,6 +97,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public ScrabBanner getScrabBanner(Long userIdx) throws BaseException{
         try{
             ScrabBanner scrabBanner = new ScrabBanner();
@@ -108,6 +116,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public List<ScrabProduct> getScrabProductTab(Long userIdx) throws BaseException{
         try{
             List<ScrabProduct> scrabProducts = scrabDao.getScrabProductTab(userIdx);
@@ -118,6 +127,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public List<ScrabProduct> getScrabProductTabFilter(Long userIdx, Long categoryId) throws BaseException{
         try{
             List<ScrabProduct> scrabProducts = scrabDao.getScrabProductTabFilter(userIdx, categoryId);
@@ -128,6 +138,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public boolean validateScrabProduct(Long userIdx, Long productId) throws BaseException {
         try{
             int count = scrabDao.validateScrabProduct(userIdx, productId);
@@ -143,6 +154,7 @@ public class ScrabService {
         }
     }
 
+    @Transactional
     public boolean validateScrabPhoto(Long userIdx, Long photoId) throws BaseException {
         try{
             int count = scrabDao.validateScrabPhoto(userIdx, photoId);
