@@ -50,7 +50,7 @@ public class ProductDao {
                 "(select avg(score) from ProductReview r where r.productId = Product.productId) as totalScore,\n" +
                 "(select count(*) from ProductReview r where r.productId = Product.productId) as numReviews,\n" +
                 "(select brandName from Seller s where s.sellerId = Product.sellerId) as brandName\n" +
-                "from Product order by numReviews desc";
+                "from Product where isTodayDeal = 'F' order by numReviews desc";
         return this.jdbcTemplate.query(getquery,
                 (rs, rowNum) -> new ProductThumbnail(
                         rs.getLong("productId"),

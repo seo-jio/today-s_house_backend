@@ -79,10 +79,13 @@ public enum BaseResponseStatus {
 
     // Seller 관련 3500 부터 시작
     SELLER_NOT_FOUND(false, 3501, "존해하지 않는 sellerId 입니다"),
+    BRANDNAME_NOT_FOUND(false, 3502, "존재하지 않는 브랜드 이름입니다."),
 
     // Scrab 3600번 부터 시작
     SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
     REVIEW_NOT_FOUND(false, 3601, "리뷰가 존재하지 않습니다."),
+
+    ALREADY_SCRABBED(false, 3602, "이미 스크랩한 아이템입니다."),
 
     // 핸드폰 번호 인증  3700부터
     PHONENUMBER_ALREADY_AUTHENTICATED(false, 3701, "핸드폰가 이미 인증되었음" ),

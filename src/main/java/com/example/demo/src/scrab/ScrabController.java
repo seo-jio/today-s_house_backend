@@ -3,13 +3,10 @@ package com.example.demo.src.scrab;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.scrab.model.*;
-import com.example.demo.src.user.model.GetUserRes;
 import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -100,6 +97,9 @@ public class ScrabController {
             if(userIdx != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
+            if(scrabService.validateScrabProduct(userIdx, productId) == false){
+                return new BaseResponse<>(ALREADY_SCRABBED);
+            }
             scrabService.scrabProduct(userIdx, productId);
             return new BaseResponse<>(SUCCESS);
         }catch(BaseException baseException){
@@ -129,6 +129,9 @@ public class ScrabController {
             Long userIdxByJwt = jwtService.getUserIdx();
             if(userIdx != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            if(scrabService.validateScrabPhoto(userIdx, photoId) == false){
+                return new BaseResponse<>(ALREADY_SCRABBED);
             }
             scrabService.scrabPhoto(userIdx, photoId);
             return new BaseResponse<>(SUCCESS);

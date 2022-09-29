@@ -40,4 +40,11 @@ public class PhoneAuthController {
             return new BaseResponse<>(BaseResponseStatus.PHONENUMBER_AUTH_FAILED);
         }
     }
+
+    @DeleteMapping("/{phoneNumber}")
+    public BaseResponse<?> deleteNumberAuth(@PathVariable String phoneNumber){
+       if( phoneAuthService.deleteNumberAuth(phoneNumber))
+           return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+       return new BaseResponse<>(BaseResponseStatus.DATABASE_ERROR);
+    }
 }
