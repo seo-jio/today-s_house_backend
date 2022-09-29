@@ -55,16 +55,16 @@ public class OrderDao {
         Object[] params = {orderId};
 
         return jdbcTemplate.queryForObject(getQuery, (rs, rowNum) -> new OrderDetail(
-                rs.getLong(1),
-                rs.getLong(2),
-                rs.getLong(3),
-                rs.getLong(4),
-                rs.getInt(5),
-                rs.getInt(6),
-                rs.getString(7),
-                rs.getLong(8),
-                rs.getString(9),
-                rs.getTimestamp(10).toLocalDateTime(),
+                rs.getLong("orderId"),
+                rs.getLong("productId"),
+                rs.getLong("productOptionId"),
+                rs.getLong("buyerIdx"),
+                rs.getInt("price"),
+                rs.getInt("deliveryStatus"),
+                rs.getString("paymentMethod"),
+                rs.getLong("addressId"),
+                rs.getString("request"),
+                rs.getTimestamp("createdAt").toLocalDateTime(),
                 rs.getString("P.productName"),
                 rs.getString("productPhotoUrl"),
                 rs.getString("PO.optionName"),
@@ -104,7 +104,7 @@ public class OrderDao {
 
     public Integer updateOrderAddress(Long orderId, Long addressId){
         String updateQuery = "update Orders set addressId = ? where orderId = ?";
-        Object[] params = {orderId, addressId};
+        Object[] params = {addressId, orderId};
         return jdbcTemplate.update(updateQuery, params);
     }
 
