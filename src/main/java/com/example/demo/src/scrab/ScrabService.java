@@ -127,4 +127,34 @@ public class ScrabService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public boolean validateScrabProduct(Long userIdx, Long productId) throws BaseException {
+        try{
+            int count = scrabDao.validateScrabProduct(userIdx, productId);
+            if (count == 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public boolean validateScrabPhoto(Long userIdx, Long photoId) throws BaseException {
+        try{
+            int count = scrabDao.validateScrabPhoto(userIdx, photoId);
+            if (count == 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }catch(Exception exception){
+            System.out.println("exception.getMessage() = " + exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

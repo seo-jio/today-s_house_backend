@@ -85,6 +85,8 @@ public enum BaseResponseStatus {
     SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
     REVIEW_NOT_FOUND(false, 3601, "리뷰가 존재하지 않습니다."),
 
+    ALREADY_SCRABBED(false, 3602, "이미 스크랩한 아이템입니다."),
+
     // 핸드폰 번호 인증  3700부터
     PHONENUMBER_ALREADY_AUTHENTICATED(false, 3701, "핸드폰가 이미 인증되었음" ),
     PHONENUMBER_INVALID(false, 3702, "11자리의 숫자로 입력해 주세요." ),
