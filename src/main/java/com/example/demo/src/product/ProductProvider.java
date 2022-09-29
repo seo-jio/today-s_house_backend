@@ -13,6 +13,8 @@ import com.example.demo.src.product.model.ProductThumbnail;
 import com.example.demo.src.product.model.entity.ExpPhoto;
 import com.example.demo.src.product.model.entity.ProductOption;
 import com.example.demo.src.product.model.entity.ProductPhoto;
+import com.example.demo.src.review.ReviewProvider;
+import com.example.demo.src.review.model.ReviewDetail;
 import com.example.demo.src.user.model.GetUserRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,8 @@ public class ProductProvider {
     private final ExpPhotoDao expPhotoDao;
     private final ProductOptionDao productOptionDao;
     private final CategoryService categoryService;
+    private final ReviewProvider reviewProvider;
+
 
     public Boolean isProductExist(Long productId){
         return productDao.isProductIdExist(productId);
@@ -61,6 +65,9 @@ public class ProductProvider {
         // 제품 선택 옵션 가져오기
         List<ProductOption> options = productOptionDao.findByProductId(productId);
 
+        List<ReviewDetail> reviews = reviewProvider.findByProductId(productId);
+
+        base.setReviews(reviews);
         base.setCategoryList(categoryList);
         base.setProductPhotos(productPhotoUrls);
         base.setExpPhotos(expPhotoUrls);

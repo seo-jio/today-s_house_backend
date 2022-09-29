@@ -2,6 +2,7 @@ package com.example.demo.src.product.model;
 
 import com.example.demo.src.category.model.Category;
 import com.example.demo.src.product.model.entity.ProductOption;
+import com.example.demo.src.review.model.ReviewDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +23,7 @@ public class GetProductDetailRes {
     String brandName;
     List<String> expPhotos;
     // TODO : Review Thumbnail 만든 이후에는 object -> reviewThumbnail class로 바꾸기.
-    List<Object> reviews;
+    List<ReviewDetail> reviews;
 
     List<ProductOption> options;
 }
