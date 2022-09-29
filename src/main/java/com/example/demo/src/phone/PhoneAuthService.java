@@ -41,4 +41,9 @@ public class PhoneAuthService {
         return true;
     }
 
+    public boolean deleteNumberAuth(String phoneNumber) {
+        if(! phoneAuthDao.isExist(phoneNumber))
+            return true;
+        return phoneAuthDao.deletePhoneNumber(phoneNumber);
+    }
 }

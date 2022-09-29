@@ -49,12 +49,17 @@ public class PhoneAuthDao {
     public Boolean doAuthenticate(String phoneNumber){
         String updateQuery = "update PhoneAuth set isAuth = 'T' where phoneNumber = ?";
         Object[] params = {phoneNumber};
-        jdbcTemplate.update(updateQuery, params);
-        return true;
+        return jdbcTemplate.update(updateQuery, params) == 1;
     }
 
 
     public boolean isAuthenticated(String phoneNumber) {
         return jdbcTemplate.queryForObject("select count(*) from PhoneAuth where phoneNumber like ? and isAuth like 'T'", Integer.class,phoneNumber) == 1;
+    }
+
+    public boolean deletePhoneNumber(String phoneNumber) {
+        String delQuery = "delete from PhoneAuth where phoneNumber like ?";
+        Object[] params = {phoneNumber};
+        return jdbcTemplate.update(delQuery, params) == 1;
     }
 }
