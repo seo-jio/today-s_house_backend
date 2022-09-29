@@ -34,6 +34,7 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_NICKNAME(false, 2019, "사용하실 이름을 입력해주세요."),
     POST_USERS_DELETED_USER(false, 2021, "탈퇴한 회원입니다."),
     POST_USERS_SLEEPER_ACCOUNT(false, 2022, "휴먼 계정입니다."),
+    PATCH_USERS_SHORT_PASSWORD(false, 2022, "입력하신 비밀번호가 너무 짧습니다."),
 
     // Product 2100번 부터 시작
 
@@ -69,6 +70,7 @@ public enum BaseResponseStatus {
 
 
     // Reviews 3300번 부터 시작
+    POST_REVIEW_SCORE_INVALID(false, 3302, "Score는 0~5중 하나의 정수로 넣어주세요."),
 
     // Categories 3400번 부터 시작
     CATEGORY_NOT_FOUND(false, 3401, "존재하지 않는 카테고리 입니다." ),
@@ -80,7 +82,12 @@ public enum BaseResponseStatus {
 
     // Scrab 3600번 부터 시작
     SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
+    REVIEW_NOT_FOUND(false, 3601, "리뷰가 존재하지 않습니다."),
 
+    // 핸드폰 번호 인증  3700부터
+    PHONENUMBER_ALREADY_AUTHENTICATED(false, 3701, "핸드폰가 이미 인증되었음" ),
+    PHONENUMBER_INVALID(false, 3702, "11자리의 숫자로 입력해 주세요." ),
+    PHONENUMBER_AUTH_FAILED(false, 3703, "잘못된 전화번호 이거나, 잘못된 코드입니다."),
 
     /**
      * 4000 : Database, Server 오류

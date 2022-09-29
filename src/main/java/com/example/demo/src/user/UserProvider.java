@@ -101,6 +101,14 @@ public class UserProvider {
         }
     }
 
+    public Long getUserIdxByEmail(String email) throws BaseException{
+        try{
+            return userDao.getUserIdxByEmail(email);
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     public Boolean isExist(Long userIdx) throws BaseException{
         try{
             List<GetUserRes> getUserResList = userDao.getUsers();

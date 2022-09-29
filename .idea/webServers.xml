@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="7a9ec6e3-add3-468d-b375-e70ffc1fc0c1" name="today-houser-aws" url="https://prod.today-home.shop/">
+        <fileTransfer rootFolder="/home/ubuntu" accessType="SFTP" host="54.180.164.66" port="22" sshConfigId="bda6d024-5101-4de9-8ddf-3de7b845ef86" sshConfig="ubuntu@54.180.164.66:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -41,7 +41,7 @@ public class OrderController {
     public BaseResponse<?> createNewOrder(@RequestBody PostOrderReq req){
         try {
             Long userIdxByJwt = jwtService.getUserIdx();
-            if (req.getBuyerIdx().equals(userIdxByJwt)) {
+            if (!req.getBuyerIdx().equals(userIdxByJwt)) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
         }

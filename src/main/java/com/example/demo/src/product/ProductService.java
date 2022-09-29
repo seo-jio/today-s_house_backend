@@ -17,6 +17,9 @@ public class ProductService {
     private final ProductOptionDao optionDao;
     @Transactional
     public Long createProduct(PostProductReq req) {
+        if(req.getIsTodayDeal().length() > 1){
+            req.setIsTodayDeal("F");
+        }
         Long id = productDao.createProduct(req);
         for(int i =0; i<req.getExpPhotos().size(); i++)
             expPhotoDao.createExpPhoto(id, req.getExpPhotos().get(i), i);
