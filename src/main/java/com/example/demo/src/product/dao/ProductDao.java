@@ -38,7 +38,9 @@ public class ProductDao {
                         null,
                         rs.getFloat("totalScore"),
                         rs.getInt("numReviews"),
-                        rs.getString("brandName")
+                        rs.getString("brandName"),
+                        rs.getString("isTodayDeal").equals("T"),
+                        rs.getTimestamp("eventDeadLine").toLocalDateTime()
                 ),
                 params);
     }
@@ -61,7 +63,9 @@ public class ProductDao {
                         null,
                         rs.getFloat("totalScore"),
                         rs.getInt("numReviews"),
-                        rs.getString("brandName")
+                        rs.getString("brandName"),
+                        rs.getString("isTodayDeal").equals("T"),
+                        rs.getTimestamp("eventDeadLine").toLocalDateTime()
                 ));
     }
 
@@ -117,7 +121,9 @@ public class ProductDao {
                         null,
                         rs.getFloat("totalScore"),
                         rs.getInt("numReviews"),
-                        rs.getString("brandName")
+                        rs.getString("brandName"),
+                        rs.getString("isTodayDeal").equals("T"),
+                        rs.getTimestamp("eventDeadLine").toLocalDateTime()
                 ), params);
     }
 
@@ -169,7 +175,9 @@ public class ProductDao {
                         null,
                         rs.getFloat("totalScore"),
                         rs.getInt("numReviews"),
-                        rs.getString("brandName")
+                        rs.getString("brandName"),
+                        rs.getString("isTodayDeal").equals("T"),
+                        rs.getTimestamp("eventDeadLine").toLocalDateTime()
                 ), params);
     }
 }

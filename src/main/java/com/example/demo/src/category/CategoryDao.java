@@ -36,9 +36,10 @@ public class CategoryDao {
                 rs.getLong(2),
                 rs.getString(3),
                 rs.getInt(4),
-                rs.getTimestamp(5),
+                rs.getString(5),
                 rs.getTimestamp(6),
-                rs.getString(7)
+                rs.getTimestamp(7),
+                rs.getString(8)
         ), params);
     }
 
@@ -51,9 +52,10 @@ public class CategoryDao {
                 rs.getLong(2),
                 rs.getString(3),
                 rs.getInt(4),
-                rs.getTimestamp(5),
+                rs.getString(5),
                 rs.getTimestamp(6),
-                rs.getString(7)
+                rs.getTimestamp(7),
+                rs.getString(8)
         ), params);
 
     }
@@ -65,9 +67,10 @@ public class CategoryDao {
                 rs.getLong(2),
                 rs.getString(3),
                 rs.getInt(4),
-                rs.getTimestamp(5),
+                rs.getString(5),
                 rs.getTimestamp(6),
-                rs.getString(7)
+                rs.getTimestamp(7),
+                rs.getString(8)
         ));
     }
 
@@ -92,9 +95,10 @@ public class CategoryDao {
                 rs.getLong(2),
                 rs.getString(3),
                 rs.getInt(4),
-                rs.getTimestamp(5),
+                rs.getString(5),
                 rs.getTimestamp(6),
-                rs.getString(7)
+                rs.getTimestamp(7),
+                rs.getString(8)
         ));
     }
 
@@ -111,9 +115,10 @@ public class CategoryDao {
                 rs.getLong(2),
                 rs.getString(3),
                 rs.getInt(4),
-                rs.getTimestamp(5),
+                rs.getString(5),
                 rs.getTimestamp(6),
-                rs.getString(7)
+                rs.getTimestamp(7),
+                rs.getString(8)
         ), new Object[]{depth});
     }
 
