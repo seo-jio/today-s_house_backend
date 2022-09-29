@@ -32,7 +32,7 @@ public class ScrabDao {
     }
 
     public List<ScrabItem> getScrabItemProducts(Long userIdx) {
-        String getQuery = "select s.productId, s.createdAt ,(select p.productPhotoUrl from ProductPhoto p where p.productId = p.productId and p.sequenceNo = 0) as imageUrl\n" +
+        String getQuery = "select s.productId, s.createdAt ,(select p.productPhotoUrl from ProductPhoto p where p.productId = pr.productId and p.sequenceNo = 0) as imageUrl\n" +
                 "                from Product pr, Scrab s where pr.productId = s.productId and s.userIdx = ? and s.status = 'T' order by s.createdAt desc;";
         Object[] params = {userIdx};
         return jdbcTemplate.query(getQuery, (rs, rowNum) -> new ScrabItem(
@@ -105,5 +105,17 @@ public class ScrabDao {
                         rs.getInt("numReviews"),
                         rs.getString("brandName")),
                 params);
+    }
+
+    public int validateScrabProduct(Long userIdx, Long productId) {
+        String query = "select count(scrabId) from Scrab where userIdx = ? and productId = ? and status = 'T'";
+        Object[] params = new Object[]{userIdx, productId};
+        return jdbcTemplate.queryForObject(query, params, int.class);
+    }
+
+    public int validateScrabPhoto(Long userIdx, Long photoId) {
+        String query = "select count(scrabPhotoId) from ScrabPhoto where userIdx = ? and photoId = ? and status = 'T'";
+        Object[] params = new Object[]{userIdx, photoId};
+        return jdbcTemplate.queryForObject(query, params, int.class);
     }
 }
