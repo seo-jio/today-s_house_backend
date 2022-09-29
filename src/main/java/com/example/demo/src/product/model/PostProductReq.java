@@ -24,6 +24,6 @@ public class PostProductReq {
     public boolean isInValid() {
         return productName == null || sellerId == null || originalPrice == null || category1 == null || category2 == null
                 || isTodayDeal == null || optionNames == null || optionPrices == null || optionNames.size() == 0 || productPhotos == null ||
-                expPhotos == null;
+                expPhotos == null || optionNames.size() != optionPrices.size();
     }
 }

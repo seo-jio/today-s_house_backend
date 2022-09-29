@@ -44,8 +44,10 @@ public class OrderService {
         return orderDao.updateOrderStatus(orderId, deliveryStatusCode) == 1;
     }
 
+    @Transactional
     public void updateAddressTo (Long orderId, PatchAddressRequest req) {
         Long addressId = addressDao.createAddress(req.getAddressName(), req.getPostalCode(), req.getAddress1(), req.getAddress2(), req.getReceiverName(), req.getReceiverPhoneNumber());
+        log.error("Updated addressId is {}", addressId.toString());
         orderDao.updateOrderAddress(orderId, addressId);
     }
 }

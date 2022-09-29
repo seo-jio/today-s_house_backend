@@ -42,6 +42,7 @@ public class ProductController {
         if (!categoryService.isCategoryIdExist(req.getCategory2())) {
             return new BaseResponse<>(BaseResponseStatus.CATEGORY_NOT_FOUND);
         }
+
         Long productId = productService.createProduct(req);
 
         return new BaseResponse<>(productId);
