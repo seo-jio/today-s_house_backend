@@ -45,6 +45,5 @@ public class PostOrderReq {
             throw new BaseException(BaseResponseStatus.POST_ORDER_ADDRESS2_TOO_LONG);
         if(request.length() > 150)
             throw new BaseException(BaseResponseStatus.POST_ORDER_REQUEST_TOO_LONG);
-
     }
 }

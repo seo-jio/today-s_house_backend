@@ -63,6 +63,10 @@ public enum BaseResponseStatus {
 
     PRODUCT_NOT_FOUND(false, 3100, "존재하지 않는 상품 번호 입니다."),
     PRODUCT_OPTION_NOT_FOUND(false, 3101, "존재하지 않는 상품 옵션 번호입니다."),
+    POST_PRODUCT_NAME_TOO_LONG(false, 3102, "상품명이 지나치게 깁니다."),
+    POST_PRODUCT_DATE_TOO_LATE(false, 3103, "이벤트는 미래에 종료되어야 합니다."),
+    POST_PRODUCT_REQUIRED_EMPTY(false, 3104, "productPhoto, expPhoto, OptionName, optionPrice 항목이 모두 1개 이상이 맞는지 확인해 주세요."),
+    POST_PRODUCT_OPTION_NOT_MATCH(false, 3105, "optionName의 개수와 optionPrice의 개수가 맞지 않습니다. 맞춰주세요."),
 
     // Orders 3200번 부터 시작
     ORDER_NOT_FOUND(false, 3200, "존재하지 않는 주문 번호 입니다."),
@@ -70,17 +74,18 @@ public enum BaseResponseStatus {
 
     POST_ORDER_INVALID_PAYMENT_METHOD(false, 3202, "올바르지 않은 지불방법입니다."),
     POST_ORDER_BUYER_NAME_TOO_LONG(false, 3203, "구매자 명이 너무 깁니다. 45자 미만으로 작성해 주세요"),
-    POST_ORDER_RECEIVER_NAME_TOO_LONG(false, 3203, "수취인 명이 너무 깁니다. 45자 미만으로 작성해 주세요"),
-    POST_ORDER_POSTAL_CODE_LENGTH_WRONG(false, 3204, "우편번호는 5자리여야 합니다"),
-    POST_ORDER_ADDRESS1_TOO_LONG(false, 3205, "address1이 너무 깁니다. 150자 미만으로 작성해 주세요."),
-    POST_ORDER_ADDRESS2_TOO_LONG(false, 3206, "address2가 너무 깁니다. 150자 미만으로 작성해 주세요."),
-    POST_ORDER_REQUEST_TOO_LONG(false, 3207, "request 항목이 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    POST_ORDER_RECEIVER_NAME_TOO_LONG(false, 3204, "수취인 명이 너무 깁니다. 45자 미만으로 작성해 주세요"),
+    POST_ORDER_POSTAL_CODE_LENGTH_WRONG(false, 3205, "우편번호는 5자리여야 합니다"),
+    POST_ORDER_ADDRESS1_TOO_LONG(false, 3206, "address1이 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    POST_ORDER_ADDRESS2_TOO_LONG(false, 3207, "address2가 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    POST_ORDER_REQUEST_TOO_LONG(false, 3208, "request 항목이 너무 깁니다. 150자 미만으로 작성해 주세요."),
 
 
-    PATCH_ORDER_POSTAL_CODE_LENGTH_WRONG(false, 3204, "우편번호는 5자리여야 합니다"),
-    PATCH_ORDER_ADDRESS1_TOO_LONG(false, 3205, "address1이 너무 깁니다. 150자 미만으로 작성해 주세요."),
-    PATCH_ORDER_ADDRESS2_TOO_LONG(false, 3206, "address2가 너무 깁니다. 150자 미만으로 작성해 주세요."),
-    PATCH_ORDER_REQUEST_TOO_LONG(false, 3207, "request 항목이 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    PATCH_ORDER_RECEIVER_NAME_TOO_LONG(false, 3213, "수취인 명이 너무 깁니다. 45자 미만으로 작성해 주세요"),
+    PATCH_ORDER_POSTAL_CODE_LENGTH_WRONG(false, 3214, "우편번호는 5자리여야 합니다"),
+    PATCH_ORDER_ADDRESS1_TOO_LONG(false, 3215, "address1이 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    PATCH_ORDER_ADDRESS2_TOO_LONG(false, 3216, "address2가 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    PATCH_ORDER_REQUEST_TOO_LONG(false, 3217, "request 항목이 너무 깁니다. 150자 미만으로 작성해 주세요."),
 
     // Reviews 3300번 부터 시작
     POST_REVIEW_SCORE_INVALID(false, 3302, "Score는 0~5중 하나의 정수로 넣어주세요."),
@@ -88,9 +93,9 @@ public enum BaseResponseStatus {
     POST_REVIEW_IMAGE_URL_TOO_LONG(false, 3304, "이미지 주소가 지나치게 깁니다."),
 
 
-    PATCH_REVIEW_SCORE_INVALID(false, 3302, "Score는 0~5중 하나의 정수로 넣어주세요."),
-    PATCH_REVIEW_CONTENT_TOO_LONG(false, 3303, "Review 내용이 너무 깁니다."),
-    PATCH_REVIEW_IMAGE_URL_TOO_LONG(false, 3304, "이미지 주소가 지나치게 깁니다."),
+    PATCH_REVIEW_SCORE_INVALID(false, 3312, "Score는 0~5중 하나의 정수로 넣어주세요."),
+    PATCH_REVIEW_CONTENT_TOO_LONG(false, 3313, "Review 내용이 너무 깁니다."),
+    PATCH_REVIEW_IMAGE_URL_TOO_LONG(false, 3314, "이미지 주소가 지나치게 깁니다."),
 
     // Categories 3400번 부터 시작
     CATEGORY_NOT_FOUND(false, 3401, "존재하지 않는 카테고리 입니다." ),
@@ -99,10 +104,10 @@ public enum BaseResponseStatus {
     POST_CATEGORY_NAME_TOO_LONG(false, 3404, "카테고리 명이 지나치게 깁니다."),
 
     // Seller 관련 3500 부터 시작
-    SELLER_NOT_FOUND(false, 3501, "존해하지 않는 sellerId 입니다"),
+    SELLER_NOT_FOUND(false, 3501, "존재하지 않는 sellerId 입니다"),
     BRANDNAME_NOT_FOUND(false, 3502, "존재하지 않는 브랜드 이름입니다."),
-    POST_SELLER_BRAND_NAME_TOO_LONG(false, 3503, "브랜드명이 너무 기비다. 45자 미만으로 작성해 주세요."),
-    POST_SELLER_BRAND_EXPLAIN_TOO_LONG(false, 3504, "브랜드 설명이 너ㅜ깁니다. 150자 미만으로 작성해 주세요."),
+    POST_SELLER_BRAND_NAME_TOO_LONG(false, 3503, "브랜드명이 너무 깁니다. 45자 미만으로 작성해 주세요."),
+    POST_SELLER_BRAND_EXPLAIN_TOO_LONG(false, 3504, "브랜드 설명이 너무깁니다. 150자 미만으로 작성해 주세요."),
 
     // Scrab 3600번 부터 시작
     SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
@@ -126,12 +131,8 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
-    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
+    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
 
-    POST_PRODUCT_NAME_TOO_LONG(false, 3102, "상품명이 지나치게 깁니다."),
-    POST_PRODUCT_DATE_TOO_LATE(false, 3103, "이벤트는 미래에 종료되어야 합니다."),
-    POST_PRODUCT_REQUIRED_EMPTY(false, 3104, "productPhoto, expPhoto, OptionName, optionPrice 항목이 모두 1개 이상이 맞는지 확인해 주세요."),
-    POST_PRODUCT_OPTION_NOT_MATCH(false, 3105, "optionName의 개수와 optionPrice의 개수가 맞지 않습니다. 맞춰주세요.");
 
 
 

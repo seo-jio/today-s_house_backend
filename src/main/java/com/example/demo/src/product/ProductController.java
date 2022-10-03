@@ -31,24 +31,20 @@ public class ProductController {
     @PostMapping("")
     BaseResponse<?> makeProduct(@RequestBody PostProductReq req){
         if(!sellerService.isSellerExist(req.getSellerId())){
-            return new BaseResponse<>(BaseResponseStatus.SELLER_NOT_FOUND);
-        }
+            return new BaseResponse<>(BaseResponseStatus.SELLER_NOT_FOUND);}
         if (!categoryService.isCategoryIdExist(req.getCategory1())) {
             return new BaseResponse<>(BaseResponseStatus.CATEGORY_NOT_FOUND);
         }
         if (!categoryService.isCategoryIdExist(req.getCategory2())) {
             return new BaseResponse<>(BaseResponseStatus.CATEGORY_NOT_FOUND);
         }
-
         try{
             req.isInValid();
         }
         catch(BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
-
         Long productId = productService.createProduct(req);
-
         return new BaseResponse<>(productId);
     }
 
