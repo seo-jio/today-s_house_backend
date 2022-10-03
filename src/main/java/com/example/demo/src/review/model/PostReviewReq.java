@@ -12,7 +12,6 @@ public class PostReviewReq {
     Short score;
     String reviewPhotoUrl;
     String content;
-
     public void isValid() throws BaseException {
         if(score>5 || score < 0)
             throw new BaseException(BaseResponseStatus.POST_REVIEW_SCORE_INVALID);

@@ -1,5 +1,7 @@
 package com.example.demo.src.product.model;
 
+import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponseStatus;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,9 +23,14 @@ public class PostProductReq {
     List<String> optionNames;
     List<Integer> optionPrices;
 
-    public boolean isInValid() {
-        return productName == null || sellerId == null || originalPrice == null || category1 == null || category2 == null
-                || isTodayDeal == null || optionNames == null || optionPrices == null || optionNames.size() == 0 || productPhotos == null ||
-                expPhotos == null || optionNames.size() != optionPrices.size();
+    public void isInValid() throws BaseException {
+        if(productName.length() > 150)
+            throw new BaseException(BaseResponseStatus.POST_PRODUCT_NAME_TOO_LONG);
+        if(eventDeadline.before(new Date()))
+            throw new BaseException(BaseResponseStatus.POST_PRODUCT_DATE_TOO_LATE);
+        if(expPhotos.size() == 0 || productPhotos.size() == 0 || optionNames.size() == 0 || optionPrices.size() == 0)
+            throw new BaseException(BaseResponseStatus.POST_PRODUCT_REQUIRED_EMPTY);
+        if(optionNames.size() != optionPrices.size())
+            throw new BaseException(BaseResponseStatus.POST_PRODUCT_OPTION_NOT_MATCH);
     }
 }
