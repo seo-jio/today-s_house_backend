@@ -8,6 +8,7 @@ import com.example.demo.src.product.ProductProvider;
 import com.example.demo.src.user.UserProvider;
 import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -38,12 +39,13 @@ public class OrderController {
     }
 
     @PostMapping()
-    public BaseResponse<?> createNewOrder(@RequestBody PostOrderReq req){
+    public BaseResponse<?> createNewOrder(@RequestBody @NotNull PostOrderReq req){
         try {
             Long userIdxByJwt = jwtService.getUserIdx();
             if (!req.getBuyerIdx().equals(userIdxByJwt)) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
+            req.isValid();
         }
         catch(BaseException e){
             return new BaseResponse<>(e.getStatus());
@@ -87,12 +89,14 @@ public class OrderController {
             return new BaseResponse<>(BaseResponseStatus.ORDER_NOT_FOUND);
         if(deliveryStatusCode > 5 || deliveryStatusCode < 0)
             return new BaseResponse<>(BaseResponseStatus.WRONG_DELIVERY_CODE);
+
+
         orderService.updateOrderStatus(orderId, deliveryStatusCode);
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
     @GetMapping("/user/{userIdx}")
-    public BaseResponse<?> getOrdersByUserIdx(@PathVariable Long userIdx){
+    public BaseResponse<?> getOrdersByUserIdx(@PathVariable @NotNull Long userIdx){
         Long userIdxByJwt = null;
         try {
             userIdxByJwt = jwtService.getUserIdx();
@@ -114,12 +118,13 @@ public class OrderController {
     }
 
     @PatchMapping("/{orderId}/address")
-    public BaseResponse<?> changeAddress(@PathVariable Long orderId ,@RequestBody PatchAddressRequest req){
+    public BaseResponse<?> changeAddress(@PathVariable Long orderId ,@RequestBody @NotNull PatchAddressRequest req){
         Long userIdxByJwt = null;
         try {
+            req.isValid();
             userIdxByJwt = jwtService.getUserIdx();
         }
-        catch(BaseException e){
+        catch(BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
         if(!orderProvider.isOrderIdExist(orderId))

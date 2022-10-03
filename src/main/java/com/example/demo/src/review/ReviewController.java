@@ -25,6 +25,7 @@ public class ReviewController {
     BaseResponse<?> createReivews(@RequestBody PostReviewReq req){
         Long userIdxByJwt = null;
         try {
+            req.isValid();
             userIdxByJwt = jwtService.getUserIdx();
             if (!req.getUserIdx().equals(userIdxByJwt)) {
                 return new BaseResponse<>(INVALID_USER_JWT);
@@ -48,6 +49,7 @@ public class ReviewController {
     BaseResponse<?> updateReview(@PathVariable Long reviewId, @RequestBody PostReviewReq req){
         Long userIdxByJwt = null;
         try {
+            req.isValid();
             userIdxByJwt = jwtService.getUserIdx();
             if (!req.getUserIdx().equals(userIdxByJwt)) {
                 return new BaseResponse<>(INVALID_USER_JWT);

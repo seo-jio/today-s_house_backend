@@ -68,18 +68,41 @@ public enum BaseResponseStatus {
     ORDER_NOT_FOUND(false, 3200, "존재하지 않는 주문 번호 입니다."),
     WRONG_DELIVERY_CODE(false, 3201, "올바른 주문 상태코드를 입력해 부세요. 0~5"),
 
+    POST_ORDER_INVALID_PAYMENT_METHOD(false, 3202, "올바르지 않은 지불방법입니다."),
+    POST_ORDER_BUYER_NAME_TOO_LONG(false, 3203, "구매자 명이 너무 깁니다. 45자 미만으로 작성해 주세요"),
+    POST_ORDER_RECEIVER_NAME_TOO_LONG(false, 3203, "수취인 명이 너무 깁니다. 45자 미만으로 작성해 주세요"),
+    POST_ORDER_POSTAL_CODE_LENGTH_WRONG(false, 3204, "우편번호는 5자리여야 합니다"),
+    POST_ORDER_ADDRESS1_TOO_LONG(false, 3205, "address1이 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    POST_ORDER_ADDRESS2_TOO_LONG(false, 3206, "address2가 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    POST_ORDER_REQUEST_TOO_LONG(false, 3207, "request 항목이 너무 깁니다. 150자 미만으로 작성해 주세요."),
+
+
+    PATCH_ORDER_POSTAL_CODE_LENGTH_WRONG(false, 3204, "우편번호는 5자리여야 합니다"),
+    PATCH_ORDER_ADDRESS1_TOO_LONG(false, 3205, "address1이 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    PATCH_ORDER_ADDRESS2_TOO_LONG(false, 3206, "address2가 너무 깁니다. 150자 미만으로 작성해 주세요."),
+    PATCH_ORDER_REQUEST_TOO_LONG(false, 3207, "request 항목이 너무 깁니다. 150자 미만으로 작성해 주세요."),
 
     // Reviews 3300번 부터 시작
     POST_REVIEW_SCORE_INVALID(false, 3302, "Score는 0~5중 하나의 정수로 넣어주세요."),
+    POST_REVIEW_CONTENT_TOO_LONG(false, 3303, "Review 내용이 너무 깁니다."),
+    POST_REVIEW_IMAGE_URL_TOO_LONG(false, 3304, "이미지 주소가 지나치게 깁니다."),
+
+
+    PATCH_REVIEW_SCORE_INVALID(false, 3302, "Score는 0~5중 하나의 정수로 넣어주세요."),
+    PATCH_REVIEW_CONTENT_TOO_LONG(false, 3303, "Review 내용이 너무 깁니다."),
+    PATCH_REVIEW_IMAGE_URL_TOO_LONG(false, 3304, "이미지 주소가 지나치게 깁니다."),
 
     // Categories 3400번 부터 시작
     CATEGORY_NOT_FOUND(false, 3401, "존재하지 않는 카테고리 입니다." ),
     CATEGORY_EXIST(false, 3402, "카테고리가 이미 존재합니다."),
     CATEGORY_CHILDREN_EXIST(false, 3403, "삭제하려는 카테고리의 하위 카테고리가 존재합니다."),
+    POST_CATEGORY_NAME_TOO_LONG(false, 3404, "카테고리 명이 지나치게 깁니다."),
 
     // Seller 관련 3500 부터 시작
     SELLER_NOT_FOUND(false, 3501, "존해하지 않는 sellerId 입니다"),
     BRANDNAME_NOT_FOUND(false, 3502, "존재하지 않는 브랜드 이름입니다."),
+    POST_SELLER_BRAND_NAME_TOO_LONG(false, 3503, "브랜드명이 너무 기비다. 45자 미만으로 작성해 주세요."),
+    POST_SELLER_BRAND_EXPLAIN_TOO_LONG(false, 3504, "브랜드 설명이 너ㅜ깁니다. 150자 미만으로 작성해 주세요."),
 
     // Scrab 3600번 부터 시작
     SCRAB_TYPE_INVALID(false, 3600, "스크랩 타입이 유효하지 않습니다. 다시 확인해주세요"),
@@ -104,6 +127,9 @@ public enum BaseResponseStatus {
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+
+
+
 
 
 

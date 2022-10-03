@@ -1,7 +1,9 @@
 package com.example.demo.src.seller;
 
+import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.seller.model.PostSellerReq;
 import com.example.demo.src.seller.model.SimpleSeller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,11 @@ public class SellerController {
 
     @PostMapping("")
     BaseResponse<?> createNewSeller(@RequestBody SimpleSeller simpleSeller){
+        try{
+            simpleSeller.isValid();
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
         Long sellerId = sellerService.createNewSeller(simpleSeller.getBrandName(), simpleSeller.getBrandExplain());
         simpleSeller.setBrandId(sellerId);
         return new BaseResponse<>(simpleSeller);
@@ -43,6 +50,11 @@ public class SellerController {
 
     @PutMapping("/{sellerId}")
     BaseResponse<?> getSellerByBrandName(@PathVariable Long sellerId, @RequestBody SimpleSeller simpleSeller){
+        try{
+            simpleSeller.isValid();
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
         if(!sellerService.isSellerExist(sellerId))
             return new BaseResponse<>(BaseResponseStatus.SELLER_NOT_FOUND);
         if(sellerService.updateSeller(

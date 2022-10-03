@@ -1,6 +1,7 @@
 package com.example.demo.src.category;
 
 
+import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.category.model.Category;
@@ -24,6 +25,11 @@ public class CategoryController {
 
     @PostMapping("")
     public BaseResponse<?> makeNewCategory(@RequestBody PostCategoryReq postCategoryReq){
+        try{
+            postCategoryReq.isValid();
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
         if(categoryService.isCategoryNameExist(postCategoryReq.getCategoryName()))
             return new BaseResponse<>(BaseResponseStatus.CATEGORY_EXIST);
         Long result = categoryService.createNewCategory(postCategoryReq);
