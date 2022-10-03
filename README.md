@@ -1,4 +1,4 @@
-# Todays House Clone Project
+# Todays House Project
 ### 오늘의 집 서비스를 스프링 & 안드로이드를 통해 구현해보는 프로젝트를 진행하고 있는 Backend 레포입니다.
 
 > **템플릿의 저작권은 (주)소프트스퀘어드에 있습니다. 상업적 용도의 사용을 금합니다**
