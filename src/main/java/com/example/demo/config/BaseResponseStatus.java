@@ -103,7 +103,15 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
-    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
+
+    POST_PRODUCT_NAME_TOO_LONG(false, 3102, "상품명이 지나치게 깁니다."),
+    POST_PRODUCT_DATE_TOO_LATE(false, 3103, "이벤트는 미래에 종료되어야 합니다."),
+    POST_PRODUCT_REQUIRED_EMPTY(false, 3104, "productPhoto, expPhoto, OptionName, optionPrice 항목이 모두 1개 이상이 맞는지 확인해 주세요."),
+    POST_PRODUCT_OPTION_NOT_MATCH(false, 3105, "optionName의 개수와 optionPrice의 개수가 맞지 않습니다. 맞춰주세요."),
+
+    POST_REVIEW_CONTENT_TOO_LONG(, , );
+
 
 
 

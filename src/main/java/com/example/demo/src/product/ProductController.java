@@ -30,9 +30,6 @@ public class ProductController {
 
     @PostMapping("")
     BaseResponse<?> makeProduct(@RequestBody PostProductReq req){
-        if(req.isInValid()){
-            return new BaseResponse<>(BaseResponseStatus.REQUEST_ERROR);
-        }
         if(!sellerService.isSellerExist(req.getSellerId())){
             return new BaseResponse<>(BaseResponseStatus.SELLER_NOT_FOUND);
         }
@@ -41,6 +38,13 @@ public class ProductController {
         }
         if (!categoryService.isCategoryIdExist(req.getCategory2())) {
             return new BaseResponse<>(BaseResponseStatus.CATEGORY_NOT_FOUND);
+        }
+
+        try{
+            req.isInValid();
+        }
+        catch(BaseException e) {
+            return new BaseResponse<>(e.getStatus());
         }
 
         Long productId = productService.createProduct(req);
